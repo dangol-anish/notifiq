@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
-import { enqueueDelivery } from '@/lib/qstash'
+import { publishPush } from '@/lib/redis'
 import { CreateEventInput } from '@/types/notification'
 
 export async function POST(req: NextRequest) {
@@ -17,16 +17,20 @@ export async function POST(req: NextRequest) {
         sql`
           INSERT INTO notifications (user_id, type, title, body, payload)
           VALUES (${userId}, ${type}, ${title}, ${msgBody ?? null}, ${JSON.stringify(payload ?? {})})
-          RETURNING id
+          RETURNING *
         `
       )
     )
 
+    // Publish directly to Redis for local dev (bypasses QStash)
+    // QStash will be used in production via /api/qstash/deliver
+    for (let i = 0; i < recipientIds.length; i++) {
+      const userId = recipientIds[i]
+      const notification = inserted[i][0]
+      await publishPush(userId, notification)
+    }
+
     const notificationIds = inserted.map((rows) => rows[0].id)
-
-    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
-    await enqueueDelivery({ notificationIds, recipientIds, type, title, body: msgBody, payload }, baseUrl)
-
     return NextResponse.json({ ok: true, notificationIds }, { status: 202 })
   } catch (err) {
     console.error('[POST /api/events]', err)
