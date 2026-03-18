@@ -1,1 +1,9 @@
+touch .gitignore
+```
+
+Paste this into it:
+```
+node_modules
+dist
+.env
 .env.example
