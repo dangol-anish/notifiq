@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { publishRead } from '@/lib/redis'
+import { getCurrentUserId } from '@/lib/auth'
 
 export async function PATCH(
   _req: NextRequest,
@@ -8,7 +9,8 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params
-    const userId = 'test-user-1'
+    const userId = await getCurrentUserId()
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const rows = await sql`
       UPDATE notifications

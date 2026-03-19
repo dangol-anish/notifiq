@@ -3,6 +3,8 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import GithubProvider from 'next-auth/providers/github'
 import bcrypt from 'bcryptjs'
 import { sql } from '@/lib/db'
+import { getServerSession } from 'next-auth'
+
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -60,4 +62,9 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
   },
+}
+
+export async function getCurrentUserId(): Promise<string | null> {
+  const session = await getServerSession(authOptions)
+  return session?.user?.id ?? null
 }

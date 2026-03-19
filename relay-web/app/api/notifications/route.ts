@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
+import { getCurrentUserId } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
   try {
     // Temporary: hardcode a test userId until NextAuth is set up
     // Replace this with: const userId = await getCurrentUserId()
-    const userId = 'test-user-1'
+    const userId = await getCurrentUserId()
+    console.log('[notifications] userId:', userId)
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { searchParams } = new URL(req.url)
     const unseen = searchParams.get('unseen') === 'true'
