@@ -4,7 +4,6 @@ import { createServer } from 'http'
 import { Server } from 'socket.io'
 import cors from 'cors'
 import { registerRoomHandlers } from './rooms'
-import { startPubSubPolling } from './pubsub'
 import { healthRouter } from './health'
 
 const PORT = process.env.PORT || 3001
@@ -33,7 +32,29 @@ io.on('connection', (socket) => {
   })
 })
 
-startPubSubPolling(io)
+// Direct HTTP delivery endpoint — called by Vercel API routes
+// Replaces Redis polling entirely, zero idle commands
+app.post('/deliver', (req, res) => {
+  const { channel, message } = req.body
+
+  if (!channel || !message) {
+    return res.status(400).json({ error: 'Missing channel or message' })
+  }
+
+  if (channel === 'notifications:push') {
+    const { userId, notification } = message
+    io.to(`room:${userId}`).emit('notification:new', notification)
+    console.log(`[deliver] notification:new to room:${userId}`)
+  }
+
+  if (channel === 'notifications:read') {
+    const { userId, notificationId, action } = message
+    io.to(`room:${userId}`).emit('notification:read', { notificationId, action })
+    console.log(`[deliver] notification:read to room:${userId}`)
+  }
+
+  res.status(200).json({ ok: true })
+})
 
 httpServer.listen(PORT, () => {
   console.log(`[ws] relay-ws running on port ${PORT}`)
