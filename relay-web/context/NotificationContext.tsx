@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { useSession } from 'next-auth/react'
 import { io, Socket } from 'socket.io-client'
 import { Notification } from '@/types/notification'
 
@@ -16,13 +17,13 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType | null>(null)
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
+  const { data: session } = useSession()
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
   const [isConnected, setIsConnected] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [socket, setSocket] = useState<Socket | null>(null)
 
-  // Fetch initial notifications from API
   const fetchNotifications = useCallback(async (unseenOnly = false) => {
     try {
       const url = unseenOnly
@@ -32,7 +33,6 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       const data = await res.json()
 
       if (unseenOnly) {
-        // On reconnect: merge unseen into existing list, avoid duplicates
         setNotifications((prev) => {
           const existingIds = new Set(prev.map((n) => n.id))
           const newOnes = data.notifications.filter((n: Notification) => !existingIds.has(n.id))
@@ -50,9 +50,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     }
   }, [])
 
-  // Mark single notification as read
   const markRead = useCallback(async (id: string) => {
-    // Optimistic update
     setNotifications((prev) =>
       prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     )
@@ -61,7 +59,6 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     try {
       await fetch(`/api/notifications/${id}`, { method: 'PATCH' })
     } catch (err) {
-      // Rollback on failure
       console.error('[notifications] markRead error:', err)
       setNotifications((prev) =>
         prev.map((n) => (n.id === id ? { ...n, read: false } : n))
@@ -70,23 +67,22 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     }
   }, [])
 
-  // Mark all notifications as read
   const markAllRead = useCallback(async () => {
-    // Optimistic update
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
     setUnreadCount(0)
 
     try {
       await fetch('/api/notifications/read-all', { method: 'PATCH' })
     } catch (err) {
-      // Rollback on failure
       console.error('[notifications] markAllRead error:', err)
       fetchNotifications()
     }
   }, [fetchNotifications])
 
-  // Set up Socket.io connection
   useEffect(() => {
+    // Don't connect until we have a session
+    if (!session?.user?.id) return
+
     const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'http://localhost:3001'
 
     const newSocket = io(wsUrl, {
@@ -99,11 +95,9 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       console.log('[ws] connected')
       setIsConnected(true)
 
-      // Temporary: hardcoded userId until NextAuth is set up
-      // Replace with actual session userId later
       newSocket.emit('auth', {
-        userId: 'test-user-1',
-        token: 'placeholder-token',
+        userId: session.user.id,
+        token: session.user.id,
       })
     })
 
@@ -112,14 +106,12 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       setIsConnected(false)
     })
 
-    // New notification pushed from server
     newSocket.on('notification:new', (notification: Notification) => {
       console.log('[ws] notification:new', notification)
       setNotifications((prev) => [notification, ...prev])
       setUnreadCount((prev) => prev + 1)
     })
 
-    // Read state changed on another device
     newSocket.on('notification:read', ({ notificationId, action }: { notificationId?: string; action?: string }) => {
       if (action === 'read-all') {
         setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
@@ -132,21 +124,18 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       }
     })
 
-    // On reconnect: fetch unseen notifications
     newSocket.on('reconnect', () => {
       console.log('[ws] reconnected — fetching unseen')
       fetchNotifications(true)
     })
 
     setSocket(newSocket)
-
-    // Fetch initial notifications on mount
     fetchNotifications()
 
     return () => {
       newSocket.disconnect()
     }
-  }, [fetchNotifications])
+  }, [fetchNotifications, session?.user?.id])
 
   return (
     <NotificationContext.Provider
