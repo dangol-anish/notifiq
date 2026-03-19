@@ -1,6 +1,8 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import LogoutButton from '@/components/auth/LogoutButton'
+import NotificationBell from '@/components/notifications/NotificationBell'
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
@@ -14,7 +16,9 @@ export default async function DashboardPage() {
       <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
         <span className="font-semibold text-gray-900">Notifiq</span>
         <div className="flex items-center gap-4">
+          <NotificationBell />
           <span className="text-sm text-gray-500">{session.user?.email}</span>
+          <LogoutButton />
         </div>
       </nav>
       <div className="max-w-4xl mx-auto mt-12 px-6">
