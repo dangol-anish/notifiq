@@ -1,43 +1,44 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Props {
-  slug: string
+  slug: string;
 }
 
 export default function CreateProjectModal({ slug }: Props) {
-  const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
     const res = await fetch(`/api/workspaces/${slug}/projects`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, description }),
-    })
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (!res.ok) {
-      setError(data.error || 'Something went wrong')
-      setLoading(false)
-      return
+      setError(data.error || "Something went wrong");
+      setLoading(false);
+      return;
     }
 
-    setIsOpen(false)
-    setName('')
-    setDescription('')
-    router.refresh()
+    setIsOpen(false);
+    setName("");
+    setDescription("");
+    setLoading(false);
+    router.refresh();
   }
 
   return (
@@ -52,7 +53,9 @@ export default function CreateProjectModal({ slug }: Props) {
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Create Project</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Create Project
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -98,7 +101,7 @@ export default function CreateProjectModal({ slug }: Props) {
                   disabled={loading}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
-                  {loading ? 'Creating...' : 'Create'}
+                  {loading ? "Creating..." : "Create"}
                 </button>
               </div>
             </form>
@@ -106,5 +109,5 @@ export default function CreateProjectModal({ slug }: Props) {
         </div>
       )}
     </>
-  )
+  );
 }
