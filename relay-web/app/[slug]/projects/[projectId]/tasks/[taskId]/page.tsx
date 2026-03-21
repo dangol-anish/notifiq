@@ -8,6 +8,7 @@ import NotificationBell from "@/components/notifications/NotificationBell";
 import CommentThread from "@/components/comment/CommentThread";
 import TaskStatusSelect from "@/components/task/TaskStatusSelect";
 import AttachmentsSection from "@/components/attachment/AttachmentsSection";
+import TaskLabels from "@/components/task/TaskLabels";
 
 export default async function TaskDetailPage({
   params,
@@ -55,6 +56,12 @@ export default async function TaskDetailPage({
     WHERE a.task_id = ${taskId}
     ORDER BY a.created_at DESC
   `;
+
+  const taskLabels = await sql`
+  SELECT l.* FROM task_labels tl
+  JOIN labels l ON l.id = tl.label_id
+  WHERE tl.task_id = ${taskId}
+`;
 
   const priorityColors: Record<string, string> = {
     urgent: "bg-red-100 text-red-700",
@@ -135,6 +142,14 @@ export default async function TaskDetailPage({
                 </span>
               </div>
             )}
+
+            <div>
+              <TaskLabels
+                taskId={taskId}
+                workspaceSlug={slug}
+                initialLabels={taskLabels as any[]}
+              />
+            </div>
 
             <div>
               <p className="text-xs text-gray-400 mb-1">Created by</p>
