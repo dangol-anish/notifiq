@@ -37,12 +37,21 @@ export default async function ProjectPage({
   const project = projectRows[0];
 
   const tasks = await sql`
-    SELECT t.*, u.name as assignee_name, u.image as assignee_image
-    FROM tasks t
-    LEFT JOIN users u ON u.id = t.assignee_id
-    WHERE t.project_id = ${projectId}
-    ORDER BY t.created_at DESC
-  `;
+  SELECT t.*,
+    u.name as assignee_name,
+    u.image as assignee_image,
+    COALESCE(
+      json_agg(json_build_object('id', l.id, 'name', l.name, 'color', l.color))
+      FILTER (WHERE l.id IS NOT NULL), '[]'
+    ) as labels
+  FROM tasks t
+  LEFT JOIN users u ON u.id = t.assignee_id
+  LEFT JOIN task_labels tl ON tl.task_id = t.id
+  LEFT JOIN labels l ON l.id = tl.label_id
+  WHERE t.project_id = ${projectId}
+  GROUP BY t.id, u.name, u.image
+  ORDER BY t.created_at DESC
+`;
 
   const members = await sql`
     SELECT u.id, u.name, u.email, u.image
