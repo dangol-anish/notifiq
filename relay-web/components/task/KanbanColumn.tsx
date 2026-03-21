@@ -1,28 +1,27 @@
-'use client'
+"use client";
 
-import TaskCard from './TaskCard'
-
-interface Task {
-  id: string
-  title: string
-  priority: string
-  status: string
-  due_date?: string
-  assignee_name?: string
-  assignee_image?: string
-  created_at: string
-}
+import { useDroppable } from "@dnd-kit/core";
+import TaskCard from "./TaskCard";
 
 interface Props {
-  title: string
-  status: string
-  tasks: Task[]
-  workspaceSlug: string
-  projectId: string
-  color: string
+  title: string;
+  status: string;
+  tasks: any[];
+  workspaceSlug: string;
+  projectId: string;
+  color: string;
 }
 
-export default function KanbanColumn({ title, status, tasks, workspaceSlug, projectId, color }: Props) {
+export default function KanbanColumn({
+  title,
+  status,
+  tasks,
+  workspaceSlug,
+  projectId,
+  color,
+}: Props) {
+  const { setNodeRef, isOver } = useDroppable({ id: status });
+
   return (
     <div className="flex-1 min-w-[240px] max-w-[320px]">
       <div className="flex items-center gap-2 mb-3">
@@ -33,7 +32,14 @@ export default function KanbanColumn({ title, status, tasks, workspaceSlug, proj
         </span>
       </div>
 
-      <div className="space-y-2 min-h-[100px]">
+      <div
+        ref={setNodeRef}
+        className={`space-y-2 min-h-[100px] rounded-lg p-2 transition-colors ${
+          isOver
+            ? "bg-blue-50 border-2 border-blue-200 border-dashed"
+            : "border-2 border-transparent"
+        }`}
+      >
         {tasks.map((task) => (
           <TaskCard
             key={task.id}
@@ -42,12 +48,12 @@ export default function KanbanColumn({ title, status, tasks, workspaceSlug, proj
             projectId={projectId}
           />
         ))}
-        {tasks.length === 0 && (
+        {tasks.length === 0 && !isOver && (
           <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
             <p className="text-xs text-gray-400">No tasks</p>
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
