@@ -9,6 +9,7 @@ import CommentThread from "@/components/comment/CommentThread";
 import TaskStatusSelect from "@/components/task/TaskStatusSelect";
 import AttachmentsSection from "@/components/attachment/AttachmentsSection";
 import TaskLabels from "@/components/task/TaskLabels";
+import TaskActions from "@/components/task/TaskActions";
 
 export default async function TaskDetailPage({
   params,
@@ -70,6 +71,20 @@ export default async function TaskDetailPage({
     low: "bg-gray-100 text-gray-600",
   };
 
+  const members = await sql`
+  SELECT u.id, u.name, u.email
+  FROM workspace_members wm
+  JOIN users u ON u.id = wm.user_id
+  WHERE wm.workspace_id = ${workspace.id}
+`;
+
+  const userRole = await sql`
+  SELECT wm.role FROM workspace_members wm
+  WHERE wm.workspace_id = ${workspace.id} AND wm.user_id = ${session.user.id}
+`;
+
+  const canEdit = userRole.length > 0;
+
   return (
     <main className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
@@ -103,7 +118,21 @@ export default async function TaskDetailPage({
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <div className="flex items-start justify-between gap-4">
             <h1 className="text-xl font-bold text-gray-900">{task.title}</h1>
-            <TaskStatusSelect taskId={taskId} currentStatus={task.status} />
+            <div className="flex items-center gap-2">
+              <TaskStatusSelect taskId={taskId} currentStatus={task.status} />
+              <TaskActions
+                taskId={taskId}
+                projectId={projectId}
+                workspaceSlug={slug}
+                currentTitle={task.title}
+                currentDescription={task.description}
+                currentPriority={task.priority}
+                currentDueDate={task.due_date}
+                currentAssigneeId={task.assignee_id}
+                members={members as any[]}
+                canEdit={canEdit}
+              />
+            </div>
           </div>
 
           {task.description && (

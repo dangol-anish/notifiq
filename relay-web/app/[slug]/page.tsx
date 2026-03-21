@@ -7,6 +7,7 @@ import LogoutButton from "@/components/auth/LogoutButton";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import CreateProjectModal from "@/components/project/CreateProjectModal";
 import ActivityFeed from "@/components/activity/ActivityFeed";
+import ProjectCard from "@/components/project/ProjectCard";
 
 export default async function WorkspacePage({
   params,
@@ -41,6 +42,8 @@ export default async function WorkspacePage({
     JOIN users u ON u.id = wm.user_id
     WHERE wm.workspace_id = ${workspace.id}
   `;
+
+  const canEdit = ["owner", "admin"].includes(workspace.role);
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -79,7 +82,7 @@ export default async function WorkspacePage({
             >
               Settings
             </Link>
-            <CreateProjectModal slug={slug} />
+            {canEdit && <CreateProjectModal slug={slug} />}
           </div>
         </div>
 
@@ -95,25 +98,12 @@ export default async function WorkspacePage({
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {projects.map((p: any) => (
-                  <Link key={p.id} href={`/${slug}/projects/${p.id}`}>
-                    <div className="bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer">
-                      <h3 className="font-semibold text-gray-900">{p.name}</h3>
-                      {p.description && (
-                        <p className="text-sm text-gray-500 mt-1 line-clamp-2">
-                          {p.description}
-                        </p>
-                      )}
-                      <span
-                        className={`mt-3 inline-block text-xs px-2 py-1 rounded-full ${
-                          p.status === "active"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-gray-100 text-gray-500"
-                        }`}
-                      >
-                        {p.status}
-                      </span>
-                    </div>
-                  </Link>
+                  <ProjectCard
+                    key={p.id}
+                    project={p}
+                    slug={slug}
+                    canEdit={canEdit}
+                  />
                 ))}
               </div>
             )}

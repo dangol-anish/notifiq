@@ -142,3 +142,15 @@ export async function getCurrentUserId(): Promise<string | null> {
   const session = await getServerSession(authOptions);
   return session?.user?.id ?? null;
 }
+
+export async function getUserWorkspaceRole(
+  userId: string,
+  workspaceSlug: string,
+): Promise<string | null> {
+  const rows = await sql`
+    SELECT wm.role FROM workspace_members wm
+    JOIN workspaces w ON w.id = wm.workspace_id
+    WHERE w.slug = ${workspaceSlug} AND wm.user_id = ${userId}
+  `;
+  return rows.length ? rows[0].role : null;
+}

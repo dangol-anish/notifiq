@@ -7,6 +7,9 @@ import LogoutButton from "@/components/auth/LogoutButton";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import InviteMemberModal from "@/components/workspace/InviteMemberModal";
 import ManageLabels from "@/components/workspace/ManageLabels";
+import WorkspaceSettingsForm from "@/components/workspace/WorkspaceSettingsForm";
+import MemberListWithActions from "@/components/workspace/MemberListWithActions";
+import DeleteWorkspaceButton from "@/components/workspace/DeleteWorkspaceButton";
 
 export default async function WorkspaceSettingsPage({
   params,
@@ -37,6 +40,7 @@ export default async function WorkspaceSettingsPage({
   `;
 
   const isOwner = workspace.role === "owner";
+  const isAdmin = workspace.role === "admin";
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -59,21 +63,13 @@ export default async function WorkspaceSettingsPage({
       </nav>
 
       <div className="max-w-3xl mx-auto mt-8 px-6 pb-12 space-y-6">
-        {/* Workspace info */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-sm font-semibold text-gray-900 mb-4">
-            Workspace
-          </h2>
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl">
-              {workspace.name.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <p className="font-semibold text-gray-900">{workspace.name}</p>
-              <p className="text-sm text-gray-400">/{workspace.slug}</p>
-            </div>
-          </div>
-        </div>
+        {/* Workspace info + rename */}
+        <WorkspaceSettingsForm
+          slug={slug}
+          currentName={workspace.name}
+          isOwner={isOwner}
+          isAdmin={isAdmin}
+        />
 
         {/* Members */}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -81,40 +77,35 @@ export default async function WorkspaceSettingsPage({
             <h2 className="text-sm font-semibold text-gray-900">
               Members ({members.length})
             </h2>
-            {isOwner && <InviteMemberModal slug={slug} />}
+            {(isOwner || isAdmin) && <InviteMemberModal slug={slug} />}
           </div>
-
-          {/* Labels */}
-          <ManageLabels slug={slug} />
-
-          <div className="space-y-3">
-            {members.map((m: any) => (
-              <div key={m.id} className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">
-                    {(m.name || m.email).charAt(0).toUpperCase()}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      {m.name || m.email}
-                    </p>
-                    <p className="text-xs text-gray-400">{m.email}</p>
-                  </div>
-                </div>
-                <span
-                  className={`text-xs px-2 py-1 rounded-full ${
-                    m.role === "owner"
-                      ? "bg-purple-100 text-purple-700"
-                      : "bg-gray-100 text-gray-600"
-                  }`}
-                >
-                  {m.role}
-                </span>
-              </div>
-            ))}
-          </div>
+          <MemberListWithActions
+            members={members as any[]}
+            slug={slug}
+            currentUserId={session.user.id}
+            isOwner={isOwner}
+          />
         </div>
+
+        {/* Labels */}
+        <ManageLabels slug={slug} />
+
+        {/* Danger zone */}
+        {isOwner && (
+          <div className="bg-white rounded-xl border border-red-200 p-6">
+            <h2 className="text-sm font-semibold text-red-600 mb-2">
+              Danger zone
+            </h2>
+            <p className="text-sm text-gray-500 mb-4">
+              Deleting this workspace is permanent. All projects, tasks, and
+              data will be lost.
+            </p>
+            <DeleteWorkspaceButton slug={slug} workspaceName={workspace.name} />
+          </div>
+        )}
       </div>
     </main>
   );
 }
+
+// Inline server-compatible import workaround
