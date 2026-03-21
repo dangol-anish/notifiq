@@ -1,37 +1,38 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CreateWorkspaceModal() {
-  const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
-  const [name, setName] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    const res = await fetch('/api/workspaces', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/workspaces", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name }),
-    })
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (!res.ok) {
-      setError(data.error || 'Something went wrong')
-      setLoading(false)
-      return
+      setError(data.error || "Something went wrong");
+      setLoading(false);
+      return;
     }
 
-    setIsOpen(false)
-    setName('')
-    router.refresh()
+    setIsOpen(false);
+    setName("");
+    setLoading(false);
+    router.refresh();
   }
 
   return (
@@ -46,7 +47,9 @@ export default function CreateWorkspaceModal() {
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Create Workspace</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Create Workspace
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -79,7 +82,7 @@ export default function CreateWorkspaceModal() {
                   disabled={loading}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
-                  {loading ? 'Creating...' : 'Create'}
+                  {loading ? "Creating..." : "Create"}
                 </button>
               </div>
             </form>
@@ -87,5 +90,5 @@ export default function CreateWorkspaceModal() {
         </div>
       )}
     </>
-  )
+  );
 }
