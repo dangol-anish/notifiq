@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { getCurrentUserId } from "@/lib/auth";
 import { publishTaskUpdated, publishTaskDeleted } from "@/lib/redis";
+import { logActivity } from "@/lib/activity";
 
 export async function PATCH(
   req: NextRequest,
@@ -42,6 +43,15 @@ export async function PATCH(
     if (taskFull.length) {
       await publishTaskUpdated(taskFull[0].workspace_id, rows[0]);
     }
+
+    await logActivity({
+      workspaceId: taskFull[0].workspace_id,
+      actorId: userId,
+      type: "task_updated",
+      entityType: "task",
+      entityId: taskId,
+      payload: { status, priority },
+    });
 
     return NextResponse.json({ task: rows[0] });
   } catch (err) {

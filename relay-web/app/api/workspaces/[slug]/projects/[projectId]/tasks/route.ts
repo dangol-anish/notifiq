@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { getCurrentUserId } from "@/lib/auth";
 import { publishPush, publishTaskUpdated } from "@/lib/redis";
+import { logActivity } from "@/lib/activity";
 
 export async function GET(
   _req: NextRequest,
@@ -106,6 +107,15 @@ export async function POST(
     }
 
     await publishTaskUpdated(workspace[0].id, task);
+
+    await logActivity({
+      workspaceId: workspace[0].id,
+      actorId: userId,
+      type: "task_created",
+      entityType: "task",
+      entityId: task.id,
+      payload: { title: task.title, projectId },
+    });
 
     return NextResponse.json({ task }, { status: 201 });
   } catch (err) {
