@@ -21,8 +21,8 @@ interface Task {
   project_id: string;
   workspace_id: string;
   created_at: string;
+  labels?: { id: string; name: string; color: string }[];
 }
-
 interface TaskContextType {
   tasks: Task[];
   setTasks: (tasks: Task[]) => void;

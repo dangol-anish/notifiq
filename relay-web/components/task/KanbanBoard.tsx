@@ -10,18 +10,20 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { useState } from "react";
+import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useTasks } from "@/context/TaskContext";
 import KanbanColumn from "./KanbanColumn";
 import TaskCard from "./TaskCard";
-import { restrictToWindowEdges } from "@dnd-kit/modifiers";
-import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
+import KanbanFilters from "./KanbanFilters";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 interface Props {
   projectId: string;
   workspaceSlug: string;
+  members: any[];
+  labels: any[];
 }
 
 const columns = [
@@ -31,10 +33,21 @@ const columns = [
   { title: "Done", status: "done", color: "bg-green-400" },
 ];
 
-export default function KanbanBoard({ projectId, workspaceSlug }: Props) {
+export default function KanbanBoard({
+  projectId,
+  workspaceSlug,
+  members,
+  labels,
+}: Props) {
   const { tasks, setTasks } = useTasks();
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+  const [filters, setFilters] = useState({
+    assigneeId: "",
+    priority: "",
+    labelId: "",
+  });
   const router = useRouter();
+  const originalStatusRef = useRef<string | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -42,10 +55,30 @@ export default function KanbanBoard({ projectId, workspaceSlug }: Props) {
     }),
   );
 
+  const filteredTasks = tasks.filter((t) => {
+    if (filters.assigneeId === "unassigned" && t.assignee_id) return false;
+    if (
+      filters.assigneeId &&
+      filters.assigneeId !== "unassigned" &&
+      t.assignee_id !== filters.assigneeId
+    )
+      return false;
+    if (filters.priority && t.priority !== filters.priority) return false;
+    if (
+      filters.labelId &&
+      !t.labels?.find((l: any) => l.id === filters.labelId)
+    )
+      return false;
+    return true;
+  });
+
   const activeTask = tasks.find((t) => t.id === activeTaskId);
 
   function handleDragStart(event: DragStartEvent) {
-    setActiveTaskId(event.active.id as string);
+    const id = event.active.id as string;
+    setActiveTaskId(id);
+    const task = tasks.find((t) => t.id === id);
+    originalStatusRef.current = task?.status ?? null;
   }
 
   function handleDragOver(event: DragOverEvent) {
@@ -69,7 +102,18 @@ export default function KanbanBoard({ projectId, workspaceSlug }: Props) {
     const { active, over } = event;
     setActiveTaskId(null);
 
-    if (!over) return;
+    if (!over) {
+      if (originalStatusRef.current && active.id) {
+        setTasks(
+          tasks.map((t) =>
+            t.id === active.id
+              ? { ...t, status: originalStatusRef.current! }
+              : t,
+          ),
+        );
+      }
+      return;
+    }
 
     const activeId = active.id as string;
     const overId = over.id as string;
@@ -77,7 +121,8 @@ export default function KanbanBoard({ projectId, workspaceSlug }: Props) {
     const overColumn = columns.find((c) => c.status === overId);
     if (!overColumn) return;
 
-    // Use the original status before drag started, not the optimistically updated one
+    if (originalStatusRef.current === overColumn.status) return;
+
     const res = await fetch(`/api/tasks/${activeId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -86,46 +131,60 @@ export default function KanbanBoard({ projectId, workspaceSlug }: Props) {
 
     if (!res.ok) {
       toast.error("Failed to update task status");
-      // Revert optimistic update by refreshing
-      router.refresh();
+      setTasks(
+        tasks.map((t) =>
+          t.id === activeId ? { ...t, status: originalStatusRef.current! } : t,
+        ),
+      );
     } else {
       toast.success("Status updated!");
     }
+
+    originalStatusRef.current = null;
   }
 
   return (
-    <DndContext
-      sensors={sensors}
-      modifiers={[restrictToFirstScrollableAncestor]}
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-      onDragEnd={handleDragEnd}
-    >
-      <div className="flex gap-4 overflow-x-hidden pb-6 overflow-y-hidden">
-        {columns.map((col) => (
-          <KanbanColumn
-            key={col.status}
-            title={col.title}
-            status={col.status}
-            tasks={tasks.filter((t) => t.status === col.status)}
-            workspaceSlug={workspaceSlug}
-            projectId={projectId}
-            color={col.color}
-          />
-        ))}
-      </div>
+    <div>
+      <KanbanFilters
+        members={members}
+        labels={labels}
+        filters={filters}
+        onChange={setFilters}
+      />
 
-      <DragOverlay dropAnimation={null}>
-        {activeTask && (
-          <div className="opacity-90 rotate-1 scale-105">
-            <TaskCard
-              task={activeTask}
+      <DndContext
+        sensors={sensors}
+        modifiers={[restrictToFirstScrollableAncestor]}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        <div className="flex gap-4 overflow-x-auto pb-6 overflow-y-hidden">
+          {columns.map((col) => (
+            <KanbanColumn
+              key={col.status}
+              title={col.title}
+              status={col.status}
+              tasks={filteredTasks.filter((t) => t.status === col.status)}
               workspaceSlug={workspaceSlug}
               projectId={projectId}
+              color={col.color}
             />
-          </div>
-        )}
-      </DragOverlay>
-    </DndContext>
+          ))}
+        </div>
+
+        <DragOverlay dropAnimation={null}>
+          {activeTask && (
+            <div className="opacity-90 rotate-1 scale-105">
+              <TaskCard
+                task={activeTask}
+                workspaceSlug={workspaceSlug}
+                projectId={projectId}
+              />
+            </div>
+          )}
+        </DragOverlay>
+      </DndContext>
+    </div>
   );
 }

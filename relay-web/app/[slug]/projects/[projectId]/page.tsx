@@ -60,6 +60,12 @@ export default async function ProjectPage({
     WHERE wm.workspace_id = ${workspace.id}
   `;
 
+  const labels = await sql`
+  SELECT * FROM labels
+  WHERE workspace_id = ${workspace.id}
+  ORDER BY name ASC
+`;
+
   return (
     <TaskProvider workspaceId={workspace.id} initialTasks={tasks as any[]}>
       <main className="min-h-screen bg-gray-50 overflow-x-hidden">
@@ -107,7 +113,12 @@ export default async function ProjectPage({
             />
           </div>
 
-          <KanbanBoard projectId={projectId} workspaceSlug={slug} />
+          <KanbanBoard
+            projectId={projectId}
+            workspaceSlug={slug}
+            members={members as any[]}
+            labels={labels as any[]}
+          />
         </div>
       </main>
     </TaskProvider>
