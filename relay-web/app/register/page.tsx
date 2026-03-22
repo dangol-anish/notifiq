@@ -113,188 +113,243 @@ export default function RegisterPage() {
   }
 
   const inputClass =
-    "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500";
+    "w-full px-2 py-3 bg-surface-container-low border-b border-outline-variant/30 border-t-0 border-l-0 border-r-0 focus:ring-0 focus:border-primary focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline-variant/60 text-on-surface text-sm outline-none";
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
-      <div className="w-full max-w-md rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-        {step === "details" ? (
-          <>
-            <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
-              Create an account
-            </h1>
-            <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-              We&apos;ll email you a code to verify before your account is
-              created.
-            </p>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                void sendVerificationCode();
-              }}
-              className="space-y-4"
-            >
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={inputClass}
-                  placeholder="John Doe"
-                  autoComplete="name"
-                  aria-invalid={!!fieldErrors.name}
-                />
-                {fieldErrors.name && (
-                  <p className="mt-1 text-xs text-red-500 dark:text-red-400">
-                    {fieldErrors.name}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={inputClass}
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                  aria-invalid={!!fieldErrors.email}
-                />
-                {fieldErrors.email && (
-                  <p className="mt-1 text-xs text-red-500 dark:text-red-400">
-                    {fieldErrors.email}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={inputClass}
-                  placeholder="8+ characters, letter and number"
-                  autoComplete="new-password"
-                  aria-invalid={!!fieldErrors.password}
-                />
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-500">
-                  At least 8 characters, including one letter and one number.
-                </p>
-                {fieldErrors.password && (
-                  <p className="mt-1 text-xs text-red-500 dark:text-red-400">
-                    {fieldErrors.password}
-                  </p>
-                )}
-              </div>
-
-              {error && (
-                <p className="text-sm text-red-500 dark:text-red-400">
-                  {error}
-                </p>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-lg bg-blue-600 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
-              >
-                {loading ? "Sending code…" : "Continue — send verification code"}
-              </button>
-            </form>
-          </>
-        ) : (
-          <>
-            <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
-              Check your email
-            </h1>
-            <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-              Enter the 6-digit code we sent to{" "}
-              <span className="font-medium text-gray-700 dark:text-gray-300">
-                {maskEmail(normalizedEmail || email)}
-              </span>
-              . It expires in 15 minutes.
-            </p>
-
-            <form onSubmit={handleVerify} className="space-y-4">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Verification code
-                </label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                  maxLength={8}
-                  value={code}
-                  onChange={(e) =>
-                    setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-                  }
-                  className={`${inputClass} font-mono text-lg tracking-widest`}
-                  placeholder="000000"
-                />
-              </div>
-
-              {error && (
-                <p className="text-sm text-red-500 dark:text-red-400">
-                  {error}
-                </p>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading || code.length !== 6}
-                className="w-full rounded-lg bg-blue-600 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
-              >
-                {loading ? "Verifying…" : "Verify and create account"}
-              </button>
-
-              <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-                <button
-                  type="button"
-                  disabled={loading}
-                  onClick={() => {
-                    setStep("details");
-                    setError("");
-                    setCode("");
-                  }}
-                  className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-                >
-                  ← Edit details
-                </button>
-                <button
-                  type="button"
-                  disabled={loading}
-                  onClick={() => void sendVerificationCode()}
-                  className="text-blue-600 hover:underline dark:text-blue-400"
-                >
-                  Resend code
-                </button>
-              </div>
-            </form>
-          </>
-        )}
-
-        <p className="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
-          Already have an account?{" "}
+    <div className="min-h-screen flex flex-col">
+      {/* Nav */}
+      <nav className="flex justify-between items-center w-full px-8 py-6">
+        <div className="text-2xl font-serif italic text-primary">Notifiq</div>
+        <div className="hidden md:flex gap-8 items-center">
           <Link
-            href={loginHref}
-            className="text-blue-600 hover:underline dark:text-blue-400"
+            href="/"
+            className="text-secondary text-sm font-medium hover:text-primary transition-colors duration-300"
           >
-            Sign in
+            Back to home
           </Link>
-        </p>
-      </div>
-    </main>
+        </div>
+      </nav>
+
+      {/* Main */}
+      <main className="flex-grow flex items-center justify-center px-4 py-12 bg-surface-container-low">
+        <div className="w-full max-w-[480px] bg-surface-container-lowest p-8 md:p-12 shadow-sm border border-outline-variant/10">
+          {step === "details" ? (
+            <>
+              {/* Header */}
+              <div className="flex flex-col items-center mb-8 text-center">
+                <div className="text-lg font-serif italic text-primary mb-6">
+                  Notifiq
+                </div>
+                <h1 className="text-3xl font-headline text-primary mb-2">
+                  Create your account
+                </h1>
+                <p className="text-secondary text-sm font-body">
+                  Join 4,000+ teams building the future on Notifiq.
+                </p>
+              </div>
+
+              {/* Form */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void sendVerificationCode();
+                }}
+                className="space-y-6"
+              >
+                <div className="space-y-1">
+                  <label
+                    htmlFor="name"
+                    className="block text-[11px] font-semibold text-secondary uppercase tracking-wider"
+                  >
+                    Full Name
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className={inputClass}
+                    placeholder="Jane Doe"
+                    autoComplete="name"
+                    aria-invalid={!!fieldErrors.name}
+                  />
+                  {fieldErrors.name && (
+                    <p className="mt-1 text-xs text-error">
+                      {fieldErrors.name}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <label
+                    htmlFor="email"
+                    className="block text-[11px] font-semibold text-secondary uppercase tracking-wider"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={inputClass}
+                    placeholder="name@company.com"
+                    autoComplete="email"
+                    aria-invalid={!!fieldErrors.email}
+                  />
+                  {fieldErrors.email && (
+                    <p className="mt-1 text-xs text-error">
+                      {fieldErrors.email}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <label
+                    htmlFor="password"
+                    className="block text-[11px] font-semibold text-secondary uppercase tracking-wider"
+                  >
+                    Password
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={inputClass}
+                    placeholder="8+ characters, letter and number"
+                    autoComplete="new-password"
+                    aria-invalid={!!fieldErrors.password}
+                  />
+                  <p className="mt-1 text-xs text-secondary/60">
+                    At least 8 characters, including one letter and one number.
+                  </p>
+                  {fieldErrors.password && (
+                    <p className="mt-1 text-xs text-error">
+                      {fieldErrors.password}
+                    </p>
+                  )}
+                </div>
+
+                {error && <p className="text-sm text-error">{error}</p>}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-primary text-on-primary py-4 font-semibold text-sm tracking-wide hover:opacity-90 active:scale-[0.99] transition-all duration-200 disabled:opacity-50"
+                >
+                  {loading
+                    ? "Sending code…"
+                    : "Continue — send verification code"}
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              {/* Header */}
+              <div className="flex flex-col items-center mb-8 text-center">
+                <div className="text-lg font-serif italic text-primary mb-6">
+                  Notifiq
+                </div>
+                <h1 className="text-3xl font-headline text-primary mb-2">
+                  Check your email
+                </h1>
+                <p className="text-secondary text-sm font-body px-2">
+                  Enter the 6-digit code sent to{" "}
+                  <span className="font-semibold text-on-surface">
+                    {maskEmail(normalizedEmail || email)}
+                  </span>
+                  . It expires in 15 minutes.
+                </p>
+              </div>
+
+              {/* Verify form */}
+              <form onSubmit={handleVerify} className="space-y-6">
+                <div className="space-y-1">
+                  <label
+                    htmlFor="code"
+                    className="block text-[11px] font-semibold text-secondary uppercase tracking-wider"
+                  >
+                    Verification Code
+                  </label>
+                  <input
+                    id="code"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={8}
+                    value={code}
+                    onChange={(e) =>
+                      setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                    }
+                    className={`${inputClass} font-mono text-lg tracking-[0.4em]`}
+                    placeholder="000000"
+                  />
+                </div>
+
+                {error && <p className="text-sm text-error">{error}</p>}
+
+                <button
+                  type="submit"
+                  disabled={loading || code.length !== 6}
+                  className="w-full bg-primary text-on-primary py-4 font-semibold text-sm tracking-wide hover:opacity-90 active:scale-[0.99] transition-all duration-200 disabled:opacity-50"
+                >
+                  {loading ? "Verifying…" : "Verify and create account"}
+                </button>
+
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={() => {
+                      setStep("details");
+                      setError("");
+                      setCode("");
+                    }}
+                    className="text-sm text-secondary hover:text-primary transition-colors disabled:opacity-50"
+                  >
+                    ← Edit details
+                  </button>
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={() => void sendVerificationCode()}
+                    className="text-sm text-primary font-semibold hover:underline disabled:opacity-50"
+                  >
+                    Resend code
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
+
+          {/* Sign in link */}
+          <div className="mt-8 pt-6 border-t border-outline-variant/10 text-center">
+            <p className="text-sm text-secondary">
+              Already have an account?{" "}
+              <Link
+                href={loginHref}
+                className="text-primary font-semibold hover:underline"
+              >
+                Sign in
+              </Link>
+            </p>
+          </div>
+
+          {/* Legal */}
+          <p className="mt-4 text-center text-[12px] text-secondary leading-relaxed px-4">
+            By signing up, you agree to our{" "}
+            <a href="#" className="underline text-primary">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="#" className="underline text-primary">
+              Privacy Policy
+            </a>
+            .
+          </p>
+        </div>
+      </main>
+    </div>
   );
 }
