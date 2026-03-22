@@ -25,8 +25,9 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
+        const emailNorm = credentials.email.trim().toLowerCase();
         const rows = await sql`
-          SELECT * FROM users WHERE email = ${credentials.email}
+          SELECT * FROM users WHERE lower(trim(email)) = ${emailNorm}
         `;
 
         if (!rows.length) return null;

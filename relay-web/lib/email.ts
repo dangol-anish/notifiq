@@ -183,3 +183,55 @@ async function sendWithResend(opts: {
 
   return { ok: true };
 }
+
+function signupVerificationHtml(opts: { name: string; code: string }): string {
+  const name = escapeHtml(opts.name);
+  const code = escapeHtml(opts.code);
+  return `
+      <div style="font-family: system-ui, sans-serif; max-width: 480px; line-height: 1.5; color: #111;">
+        <p>Hi ${name},</p>
+        <p>Use this code to finish creating your <strong>Notifiq</strong> account:</p>
+        <p style="margin: 24px 0; font-size: 28px; font-weight: 700; letter-spacing: 0.2em; font-family: ui-monospace, monospace;">${code}</p>
+        <p style="font-size: 14px; color: #666;">This code expires in <strong>15 minutes</strong>. If you didn’t sign up, you can ignore this email.</p>
+      </div>
+    `;
+}
+
+/** Send 6-digit signup verification code. */
+export async function sendSignupVerificationEmail(opts: {
+  to: string;
+  name: string;
+  code: string;
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  const subject = `${opts.code} is your Notifiq verification code`;
+  const html = signupVerificationHtml({
+    name: opts.name,
+    code: opts.code,
+  });
+
+  const smtp = getSmtpConfig();
+  if (smtp) {
+    return sendWithSmtp({
+      to: opts.to,
+      subject,
+      html,
+      config: smtp,
+    });
+  }
+
+  const resend = getResend();
+  if (resend) {
+    return sendWithResend({
+      resend,
+      to: opts.to,
+      subject,
+      html,
+    });
+  }
+
+  return {
+    ok: false,
+    error:
+      "No email provider: set SMTP_HOST + SMTP_USER + SMTP_PASS + EMAIL_FROM, or RESEND_API_KEY",
+  };
+}
