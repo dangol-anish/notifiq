@@ -6,6 +6,7 @@ import LogoutButton from "@/components/auth/LogoutButton";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import CreateWorkspaceModal from "@/components/workspace/CreateWorkspaceModal";
 import WorkspaceCard from "@/components/workspace/WorkspaceCard";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -25,7 +26,12 @@ export default async function DashboardPage() {
         <span className="font-semibold text-gray-900">Notifiq</span>
         <div className="flex items-center gap-4">
           <NotificationBell />
-          <span className="text-sm text-gray-500">{session.user?.email}</span>
+          <Link
+            href="/profile"
+            className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            {session.user?.name || session.user?.email}
+          </Link>
           <LogoutButton />
         </div>
       </nav>
