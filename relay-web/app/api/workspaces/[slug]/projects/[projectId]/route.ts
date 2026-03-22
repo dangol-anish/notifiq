@@ -23,6 +23,14 @@ export async function PATCH(
 
     const { name, description, status } = await req.json();
 
+    if (
+      status !== undefined &&
+      status !== null &&
+      !["active", "archived"].includes(status)
+    ) {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
     const rows = await sql`
       UPDATE projects SET
         name = COALESCE(${name ?? null}, name),

@@ -10,6 +10,7 @@ interface Props {
   initialComments: any[];
   currentUserId: string;
   currentUserName: string;
+  readOnly?: boolean;
 }
 
 export default function CommentThread({
@@ -17,6 +18,7 @@ export default function CommentThread({
   initialComments,
   currentUserId,
   currentUserName,
+  readOnly = false,
 }: Props) {
   const router = useRouter();
   const [comments, setComments] = useState(initialComments);
@@ -66,27 +68,33 @@ export default function CommentThread({
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="flex gap-3">
-        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium shrink-0">
-          {currentUserName.charAt(0).toUpperCase()}
-        </div>
-        <div className="flex-1">
-          <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            placeholder="Add a comment... Use @name to mention someone"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-            rows={3}
-          />
-          <button
-            type="submit"
-            disabled={loading || !body.trim()}
-            className="mt-2 bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
-          >
-            {loading ? "Posting..." : "Comment"}
-          </button>
-        </div>
-      </form>
+      {!readOnly ? (
+        <form onSubmit={handleSubmit} className="flex gap-3">
+          <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium shrink-0">
+            {currentUserName.charAt(0).toUpperCase()}
+          </div>
+          <div className="flex-1">
+            <textarea
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder="Add a comment... Use @name to mention someone"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              rows={3}
+            />
+            <button
+              type="submit"
+              disabled={loading || !body.trim()}
+              className="mt-2 bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+            >
+              {loading ? "Posting..." : "Comment"}
+            </button>
+          </div>
+        </form>
+      ) : (
+        <p className="text-sm text-gray-400">
+          Comments are read-only while the project is archived.
+        </p>
+      )}
     </div>
   );
 }

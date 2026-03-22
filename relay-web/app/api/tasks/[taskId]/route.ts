@@ -3,6 +3,7 @@ import { sql } from "@/lib/db";
 import { getCurrentUserId } from "@/lib/auth";
 import { publishTaskUpdated, publishTaskDeleted } from "@/lib/redis";
 import { logActivity } from "@/lib/activity";
+import { assertProjectNotArchivedByTaskId } from "@/lib/project-archive";
 
 export async function PATCH(
   req: NextRequest,
@@ -16,6 +17,14 @@ export async function PATCH(
     const { taskId } = await params;
     const { status, priority, assigneeId, title, description, dueDate } =
       await req.json();
+
+    const archiveCheck = await assertProjectNotArchivedByTaskId(taskId);
+    if (!archiveCheck.ok) {
+      return NextResponse.json(
+        { error: archiveCheck.message },
+        { status: archiveCheck.status },
+      );
+    }
 
     const rows = await sql`
       UPDATE tasks SET
@@ -73,6 +82,14 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { taskId } = await params;
+
+    const archiveCheck = await assertProjectNotArchivedByTaskId(taskId);
+    if (!archiveCheck.ok) {
+      return NextResponse.json(
+        { error: archiveCheck.message },
+        { status: archiveCheck.status },
+      );
+    }
 
     // Get task info before deleting
     const taskInfo = await sql`

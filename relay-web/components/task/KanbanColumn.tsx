@@ -10,6 +10,7 @@ interface Props {
   workspaceSlug: string;
   projectId: string;
   color: string;
+  readOnly?: boolean;
 }
 
 export default function KanbanColumn({
@@ -19,8 +20,12 @@ export default function KanbanColumn({
   workspaceSlug,
   projectId,
   color,
+  readOnly = false,
 }: Props) {
-  const { setNodeRef, isOver } = useDroppable({ id: status });
+  const { setNodeRef, isOver } = useDroppable({
+    id: status,
+    disabled: readOnly,
+  });
 
   return (
     <div className="flex-1 min-w-[240px] max-w-[320px]">
@@ -46,11 +51,14 @@ export default function KanbanColumn({
             task={task}
             workspaceSlug={workspaceSlug}
             projectId={projectId}
+            readOnly={readOnly}
           />
         ))}
         {tasks.length === 0 && !isOver && (
           <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-400">Drop tasks here</p>
+            <p className="text-xs text-gray-400">
+              {readOnly ? "No tasks" : "Drop tasks here"}
+            </p>
           </div>
         )}
       </div>

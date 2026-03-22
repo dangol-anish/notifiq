@@ -7,11 +7,13 @@ import AttachmentList from "./AttachmentList";
 interface Props {
   taskId: string;
   initialAttachments: any[];
+  readOnly?: boolean;
 }
 
 export default function AttachmentsSection({
   taskId,
   initialAttachments,
+  readOnly = false,
 }: Props) {
   const [attachments, setAttachments] = useState(initialAttachments);
 
@@ -33,11 +35,14 @@ export default function AttachmentsSection({
           attachments={attachments}
           taskId={taskId}
           onDelete={handleDelete}
+          readOnly={readOnly}
         />
-        <AttachmentUpload
-          taskId={taskId}
-          onUploadComplete={handleUploadComplete}
-        />
+        {!readOnly && (
+          <AttachmentUpload
+            taskId={taskId}
+            onUploadComplete={handleUploadComplete}
+          />
+        )}
       </div>
     </div>
   );

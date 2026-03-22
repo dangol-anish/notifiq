@@ -42,6 +42,13 @@ export default async function TaskDetailPage({
   if (!taskRows.length) redirect(`/${slug}/projects/${projectId}`);
   const task = taskRows[0];
 
+  const projectRows = await sql`
+    SELECT status FROM projects
+    WHERE id = ${projectId} AND workspace_id = ${workspace.id}
+  `;
+  const projectArchived =
+    projectRows.length > 0 && projectRows[0].status === "archived";
+
   const comments = await sql`
     SELECT cm.*, u.name as author_name, u.image as author_image
     FROM comments cm
@@ -115,11 +122,21 @@ export default async function TaskDetailPage({
       </nav>
 
       <div className="max-w-4xl mx-auto mt-8 px-6 pb-12">
+        {projectArchived && (
+          <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            This project is archived. Task details are read-only until the project
+            is restored.
+          </div>
+        )}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <div className="flex items-start justify-between gap-4">
             <h1 className="text-xl font-bold text-gray-900">{task.title}</h1>
             <div className="flex items-center gap-2">
-              <TaskStatusSelect taskId={taskId} currentStatus={task.status} />
+              <TaskStatusSelect
+                taskId={taskId}
+                currentStatus={task.status}
+                readOnly={projectArchived}
+              />
               <TaskActions
                 taskId={taskId}
                 projectId={projectId}
@@ -130,7 +147,7 @@ export default async function TaskDetailPage({
                 currentDueDate={task.due_date}
                 currentAssigneeId={task.assignee_id}
                 members={members as any[]}
-                canEdit={canEdit}
+                canEdit={canEdit && !projectArchived}
               />
             </div>
           </div>
@@ -177,6 +194,7 @@ export default async function TaskDetailPage({
                 taskId={taskId}
                 workspaceSlug={slug}
                 initialLabels={taskLabels as any[]}
+                readOnly={projectArchived}
               />
             </div>
 
@@ -194,6 +212,7 @@ export default async function TaskDetailPage({
             initialComments={comments}
             currentUserId={session.user.id}
             currentUserName={session.user.name || session.user.email || ""}
+            readOnly={projectArchived}
           />
         </div>
 
@@ -202,6 +221,7 @@ export default async function TaskDetailPage({
           <AttachmentsSection
             taskId={taskId}
             initialAttachments={attachments as any[]}
+            readOnly={projectArchived}
           />
         </div>
       </div>

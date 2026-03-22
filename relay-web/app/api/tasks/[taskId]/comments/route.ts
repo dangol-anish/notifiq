@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { getCurrentUserId } from "@/lib/auth";
 import { logActivity } from "@/lib/activity";
+import { assertProjectNotArchivedByTaskId } from "@/lib/project-archive";
 
 export async function GET(
   _req: NextRequest,
@@ -49,6 +50,14 @@ export async function POST(
         { error: "Comment cannot be empty" },
         { status: 400 },
       );
+
+    const archiveCheck = await assertProjectNotArchivedByTaskId(taskId);
+    if (!archiveCheck.ok) {
+      return NextResponse.json(
+        { error: archiveCheck.message },
+        { status: archiveCheck.status },
+      );
+    }
 
     const rows = await sql`
       INSERT INTO comments (task_id, author_id, body)

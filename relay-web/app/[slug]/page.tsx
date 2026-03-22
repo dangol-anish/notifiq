@@ -53,6 +53,11 @@ export default async function WorkspacePage({
 
   const canEdit = ["owner", "admin"].includes(workspace.role);
 
+  const activeProjects = projects.filter((p: { status?: string }) => p.status !== "archived");
+  const archivedProjects = projects.filter(
+    (p: { status?: string }) => p.status === "archived",
+  );
+
   return (
     <main className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
@@ -97,7 +102,7 @@ export default async function WorkspacePage({
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            {projects.length === 0 ? (
+            {activeProjects.length === 0 && archivedProjects.length === 0 ? (
               <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
                 <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <svg
@@ -123,15 +128,59 @@ export default async function WorkspacePage({
                 {canEdit && <CreateProjectModal slug={slug} />}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {projects.map((p: any) => (
-                  <ProjectCard
-                    key={p.id}
-                    project={p}
-                    slug={slug}
-                    canEdit={canEdit}
-                  />
-                ))}
+              <div className="space-y-8">
+                {activeProjects.length === 0 ? (
+                  <div className="bg-white rounded-xl border border-dashed border-gray-200 p-8 text-center">
+                    <p className="text-sm text-gray-500">
+                      No active projects. Restore one from archived or create a
+                      new project.
+                    </p>
+                    {canEdit && (
+                      <div className="mt-4 flex justify-center">
+                        <CreateProjectModal slug={slug} />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {activeProjects.map((p: any) => (
+                      <ProjectCard
+                        key={p.id}
+                        project={p}
+                        slug={slug}
+                        canEdit={canEdit}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {archivedProjects.length > 0 && (
+                  <details className="group rounded-xl border border-gray-200 bg-gray-50/80">
+                    <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-gray-600 flex items-center justify-between gap-2 [&::-webkit-details-marker]:hidden">
+                      <span>
+                        Archived projects
+                        <span className="ml-2 text-gray-400 font-normal">
+                          ({archivedProjects.length})
+                        </span>
+                      </span>
+                      <span className="text-gray-400 text-xs group-open:rotate-180 transition-transform">
+                        ▼
+                      </span>
+                    </summary>
+                    <div className="px-4 pb-4 pt-0 border-t border-gray-100">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        {archivedProjects.map((p: any) => (
+                          <ProjectCard
+                            key={p.id}
+                            project={p}
+                            slug={slug}
+                            canEdit={canEdit}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </details>
+                )}
               </div>
             )}
           </div>

@@ -9,6 +9,7 @@ interface Props {
   task: any;
   workspaceSlug: string;
   projectId: string;
+  readOnly?: boolean;
 }
 
 const priorityColors: Record<string, string> = {
@@ -18,10 +19,16 @@ const priorityColors: Record<string, string> = {
   low: "bg-gray-100 text-gray-600",
 };
 
-export default function TaskCard({ task, workspaceSlug, projectId }: Props) {
+export default function TaskCard({
+  task,
+  workspaceSlug,
+  projectId,
+  readOnly = false,
+}: Props) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: task.id,
+      disabled: readOnly,
     });
 
   const style = {
@@ -36,7 +43,12 @@ export default function TaskCard({ task, workspaceSlug, projectId }: Props) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
-      <div {...listeners} className="cursor-grab active:cursor-grabbing">
+      <div
+        {...(readOnly ? {} : listeners)}
+        className={
+          readOnly ? "" : "cursor-grab active:cursor-grabbing"
+        }
+      >
         <Link
           href={`/${workspaceSlug}/projects/${projectId}/tasks/${task.id}`}
           onClick={(e) => {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { getCurrentUserId } from "@/lib/auth";
+import { assertProjectNotArchivedByTaskId } from "@/lib/project-archive";
 
 export async function GET(
   _req: NextRequest,
@@ -50,6 +51,14 @@ export async function POST(
       );
     }
 
+    const archiveCheck = await assertProjectNotArchivedByTaskId(taskId);
+    if (!archiveCheck.ok) {
+      return NextResponse.json(
+        { error: archiveCheck.message },
+        { status: archiveCheck.status },
+      );
+    }
+
     const rows = await sql`
       INSERT INTO attachments (task_id, uploaded_by, file_name, file_url, file_size, file_type)
       VALUES (${taskId}, ${userId}, ${fileName}, ${fileUrl}, ${fileSize ?? null}, ${fileType ?? null})
@@ -77,6 +86,14 @@ export async function DELETE(
 
     const { taskId } = await params;
     const { attachmentId } = await req.json();
+
+    const archiveCheck = await assertProjectNotArchivedByTaskId(taskId);
+    if (!archiveCheck.ok) {
+      return NextResponse.json(
+        { error: archiveCheck.message },
+        { status: archiveCheck.status },
+      );
+    }
 
     await sql`
       DELETE FROM attachments

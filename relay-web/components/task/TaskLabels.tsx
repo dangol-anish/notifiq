@@ -13,12 +13,14 @@ interface Props {
   taskId: string;
   workspaceSlug: string;
   initialLabels: Label[];
+  readOnly?: boolean;
 }
 
 export default function TaskLabels({
   taskId,
   workspaceSlug,
   initialLabels,
+  readOnly = false,
 }: Props) {
   const [labels, setLabels] = useState<Label[]>(initialLabels);
   const [allLabels, setAllLabels] = useState<Label[]>([]);
@@ -69,10 +71,11 @@ export default function TaskLabels({
             key={label.id}
             name={label.name}
             color={label.color}
-            onRemove={() => removeLabel(label.id)}
+            onRemove={readOnly ? undefined : () => removeLabel(label.id)}
           />
         ))}
 
+        {!readOnly && (
         <div className="relative">
           <button
             onClick={() => setShowDropdown((prev) => !prev)}
@@ -115,6 +118,7 @@ export default function TaskLabels({
             </>
           )}
         </div>
+        )}
       </div>
     </div>
   );

@@ -18,10 +18,16 @@ export default function ProjectCard({ project, slug, canEdit }: Props) {
   const todo = Number(project.todo_tasks) || 0;
   const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
+  const archived = project.status === "archived";
+
   return (
     <div
       onClick={() => router.push(`/${slug}/projects/${project.id}`)}
-      className="bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer relative"
+      className={`bg-white rounded-xl border p-6 transition-all cursor-pointer relative ${
+        archived
+          ? "border-gray-200 border-dashed opacity-95 hover:border-gray-300"
+          : "border-gray-200 hover:border-blue-300 hover:shadow-sm"
+      }`}
     >
       <div className="flex items-start justify-between">
         <h3 className="font-semibold text-gray-900">{project.name}</h3>
@@ -70,12 +76,14 @@ export default function ProjectCard({ project, slug, canEdit }: Props) {
       <div className="flex items-center justify-between mt-3">
         <span
           className={`text-xs px-2 py-1 rounded-full ${
-            project.status === "active"
-              ? "bg-green-100 text-green-700"
-              : "bg-gray-100 text-gray-500"
+            archived
+              ? "bg-gray-200 text-gray-600"
+              : project.status === "active" || !project.status
+                ? "bg-green-100 text-green-700"
+                : "bg-gray-100 text-gray-500"
           }`}
         >
-          {project.status}
+          {archived ? "archived" : project.status || "active"}
         </span>
       </div>
     </div>

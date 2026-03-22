@@ -46,6 +46,27 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
     setLoading(false);
   }
 
+  async function handleArchive() {
+    setLoading(true);
+    const newStatus = project.status === "archived" ? "active" : "archived";
+
+    const res = await fetch(`/api/workspaces/${slug}/projects/${project.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus }),
+    });
+
+    if (res.ok) {
+      toast.success(
+        newStatus === "archived" ? "Project archived" : "Project restored",
+      );
+      router.refresh();
+    } else {
+      toast.error("Failed to update project");
+    }
+    setLoading(false);
+  }
+
   async function handleDelete() {
     setLoading(true);
 
@@ -82,7 +103,7 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
               className="fixed inset-0 z-10"
               onClick={() => setShowMenu(false)}
             />
-            <div className="absolute right-0 top-7 z-20 bg-white border border-gray-200 rounded-lg shadow-lg py-1 min-w-[130px]">
+            <div className="absolute right-0 top-7 z-20 bg-white border border-gray-200 rounded-lg shadow-lg py-1 min-w-[140px]">
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -92,6 +113,18 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
                 className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
               >
                 Edit project
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleArchive();
+                  setShowMenu(false);
+                }}
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              >
+                {project.status === "archived"
+                  ? "Restore project"
+                  : "Archive project"}
               </button>
               <button
                 onClick={(e) => {

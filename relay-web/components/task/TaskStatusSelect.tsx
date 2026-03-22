@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 interface Props {
   taskId: string;
   currentStatus: string;
+  readOnly?: boolean;
 }
 
 const statuses = [
@@ -24,7 +25,11 @@ const statuses = [
   { value: "done", label: "Done", color: "bg-green-100 text-green-700" },
 ];
 
-export default function TaskStatusSelect({ taskId, currentStatus }: Props) {
+export default function TaskStatusSelect({
+  taskId,
+  currentStatus,
+  readOnly = false,
+}: Props) {
   const router = useRouter();
   const [status, setStatus] = useState(currentStatus);
   const [loading, setLoading] = useState(false);
@@ -56,8 +61,8 @@ export default function TaskStatusSelect({ taskId, currentStatus }: Props) {
     <select
       value={status}
       onChange={(e) => handleChange(e.target.value)}
-      disabled={loading}
-      className={`text-sm px-3 py-1.5 rounded-lg font-medium border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${current.color}`}
+      disabled={loading || readOnly}
+      className={`text-sm px-3 py-1.5 rounded-lg font-medium border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 ${current.color} ${readOnly ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
     >
       {statuses.map((s) => (
         <option key={s.value} value={s.value}>

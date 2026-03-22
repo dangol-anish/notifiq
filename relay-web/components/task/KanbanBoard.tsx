@@ -24,6 +24,7 @@ interface Props {
   workspaceSlug: string;
   members: any[];
   labels: any[];
+  readOnly?: boolean;
 }
 
 const columns = [
@@ -38,6 +39,7 @@ export default function KanbanBoard({
   workspaceSlug,
   members,
   labels,
+  readOnly = false,
 }: Props) {
   const { tasks, setTasks } = useTasks();
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
@@ -152,6 +154,12 @@ export default function KanbanBoard({
         onChange={setFilters}
       />
 
+      {readOnly && (
+        <p className="text-sm text-gray-500 mb-4">
+          Board is read-only while this project is archived.
+        </p>
+      )}
+
       <DndContext
         sensors={sensors}
         modifiers={[restrictToFirstScrollableAncestor]}
@@ -169,6 +177,7 @@ export default function KanbanBoard({
               workspaceSlug={workspaceSlug}
               projectId={projectId}
               color={col.color}
+              readOnly={readOnly}
             />
           ))}
         </div>
@@ -180,6 +189,7 @@ export default function KanbanBoard({
                 task={activeTask}
                 workspaceSlug={workspaceSlug}
                 projectId={projectId}
+                readOnly={readOnly}
               />
             </div>
           )}

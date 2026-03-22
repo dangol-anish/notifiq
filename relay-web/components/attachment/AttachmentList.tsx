@@ -16,6 +16,7 @@ interface Props {
   attachments: Attachment[];
   taskId: string;
   onDelete: (attachmentId: string) => void;
+  readOnly?: boolean;
 }
 
 function formatFileSize(bytes?: number) {
@@ -36,6 +37,7 @@ export default function AttachmentList({
   attachments,
   taskId,
   onDelete,
+  readOnly = false,
 }: Props) {
   if (!attachments.length) {
     return <p className="text-sm text-gray-400">No attachments yet.</p>;
@@ -67,24 +69,26 @@ export default function AttachmentList({
             </div>
           </div>
 
-          <button
-            onClick={async () => {
-              const res = await fetch(`/api/tasks/${taskId}/attachments`, {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ attachmentId: a.id }),
-              });
-              if (res.ok) {
-                toast.success("Attachment deleted");
-                onDelete(a.id);
-              } else {
-                toast.error("Failed to delete attachment");
-              }
-            }}
-            className="text-gray-400 hover:text-red-500 transition-colors ml-2 shrink-0"
-          >
-            ✕
-          </button>
+          {!readOnly && (
+            <button
+              onClick={async () => {
+                const res = await fetch(`/api/tasks/${taskId}/attachments`, {
+                  method: "DELETE",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ attachmentId: a.id }),
+                });
+                if (res.ok) {
+                  toast.success("Attachment deleted");
+                  onDelete(a.id);
+                } else {
+                  toast.error("Failed to delete attachment");
+                }
+              }}
+              className="text-gray-400 hover:text-red-500 transition-colors ml-2 shrink-0"
+            >
+              ✕
+            </button>
+          )}
         </div>
       ))}
     </div>

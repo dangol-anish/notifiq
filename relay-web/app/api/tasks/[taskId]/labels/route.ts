@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { getCurrentUserId } from "@/lib/auth";
+import { assertProjectNotArchivedByTaskId } from "@/lib/project-archive";
 
 export async function POST(
   req: NextRequest,
@@ -13,6 +14,14 @@ export async function POST(
 
     const { taskId } = await params;
     const { labelId } = await req.json();
+
+    const archiveCheck = await assertProjectNotArchivedByTaskId(taskId);
+    if (!archiveCheck.ok) {
+      return NextResponse.json(
+        { error: archiveCheck.message },
+        { status: archiveCheck.status },
+      );
+    }
 
     await sql`
       INSERT INTO task_labels (task_id, label_id)
@@ -41,6 +50,14 @@ export async function DELETE(
 
     const { taskId } = await params;
     const { labelId } = await req.json();
+
+    const archiveCheck = await assertProjectNotArchivedByTaskId(taskId);
+    if (!archiveCheck.ok) {
+      return NextResponse.json(
+        { error: archiveCheck.message },
+        { status: archiveCheck.status },
+      );
+    }
 
     await sql`
       DELETE FROM task_labels

@@ -42,6 +42,7 @@ export async function GET(
       FROM tasks t
       JOIN projects p ON p.id = t.project_id
       WHERE t.workspace_id = ${workspace[0].id}
+      AND COALESCE(p.status, 'active') != 'archived'
       AND (
         t.title ILIKE ${"%" + query + "%"}
         OR t.description ILIKE ${"%" + query + "%"}

@@ -7,6 +7,7 @@ import LogoutButton from "@/components/auth/LogoutButton";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import KanbanBoard from "@/components/task/KanbanBoard";
 import CreateTaskModal from "@/components/task/CreateTaskModal";
+import ProjectActionsWrapper from "@/components/project/ProjectActionsWrapper";
 import { TaskProvider } from "@/context/TaskContext";
 
 export default async function ProjectPage({
@@ -20,13 +21,14 @@ export default async function ProjectPage({
   const { slug, projectId } = await params;
 
   const workspaceRows = await sql`
-    SELECT w.* FROM workspaces w
+    SELECT w.*, wm.role FROM workspaces w
     JOIN workspace_members wm ON wm.workspace_id = w.id
     WHERE w.slug = ${slug} AND wm.user_id = ${session.user.id}
   `;
 
   if (!workspaceRows.length) redirect("/dashboard");
   const workspace = workspaceRows[0];
+  const canEdit = ["owner", "admin"].includes(workspace.role as string);
 
   const projectRows = await sql`
     SELECT * FROM projects
@@ -35,6 +37,7 @@ export default async function ProjectPage({
 
   if (!projectRows.length) redirect(`/${slug}`);
   const project = projectRows[0];
+  const projectArchived = project.status === "archived";
 
   const tasks = await sql`
   SELECT t.*,
@@ -95,7 +98,13 @@ export default async function ProjectPage({
         </nav>
 
         <div className="max-w-7xl mx-auto mt-8 px-6 overflow-x-clip">
-          <div className="flex items-center justify-between mb-6">
+          {projectArchived && (
+            <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+              This project is <strong>archived</strong>. You can view tasks, but
+              editing and new work are disabled until you restore it.
+            </div>
+          )}
+          <div className="flex items-center justify-between mb-6 gap-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
                 {project.name}
@@ -106,11 +115,27 @@ export default async function ProjectPage({
                 </p>
               )}
             </div>
-            <CreateTaskModal
-              projectId={projectId}
-              workspaceSlug={slug}
-              members={members as any[]}
-            />
+            <div className="flex items-center gap-2 shrink-0">
+              {canEdit && (
+                <ProjectActionsWrapper
+                  project={{
+                    id: project.id,
+                    name: project.name,
+                    description: project.description,
+                    status: project.status,
+                  }}
+                  slug={slug}
+                  canEdit={canEdit}
+                />
+              )}
+              {!projectArchived && (
+                <CreateTaskModal
+                  projectId={projectId}
+                  workspaceSlug={slug}
+                  members={members as any[]}
+                />
+              )}
+            </div>
           </div>
 
           <KanbanBoard
@@ -118,6 +143,7 @@ export default async function ProjectPage({
             workspaceSlug={slug}
             members={members as any[]}
             labels={labels as any[]}
+            readOnly={projectArchived}
           />
         </div>
       </main>

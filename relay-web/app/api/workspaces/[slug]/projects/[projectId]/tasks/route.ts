@@ -3,6 +3,7 @@ import { sql } from "@/lib/db";
 import { getCurrentUserId } from "@/lib/auth";
 import { publishPush, publishTaskUpdated } from "@/lib/redis";
 import { logActivity } from "@/lib/activity";
+import { assertProjectNotArchivedByProjectId } from "@/lib/project-archive";
 
 export async function GET(
   _req: NextRequest,
@@ -72,6 +73,14 @@ export async function POST(
         { error: "Workspace not found" },
         { status: 404 },
       );
+
+    const archiveCheck = await assertProjectNotArchivedByProjectId(projectId);
+    if (!archiveCheck.ok) {
+      return NextResponse.json(
+        { error: archiveCheck.message },
+        { status: archiveCheck.status },
+      );
+    }
 
     const rows = await sql`
       INSERT INTO tasks (project_id, workspace_id, title, description, priority, assignee_id, due_date, created_by)
