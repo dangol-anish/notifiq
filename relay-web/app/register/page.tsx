@@ -337,7 +337,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Legal */}
-          <p className="mt-4 text-center text-[12px] text-secondary leading-relaxed px-4">
+          {/* <p className="mt-4 text-center text-[12px] text-secondary leading-relaxed px-4">
             By signing up, you agree to our{" "}
             <a href="#" className="underline text-primary">
               Terms of Service
@@ -347,7 +347,7 @@ export default function RegisterPage() {
               Privacy Policy
             </a>
             .
-          </p>
+          </p> */}
         </div>
       </main>
     </div>

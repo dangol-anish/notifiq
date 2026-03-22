@@ -10,7 +10,7 @@ import {
 import { useSession } from "next-auth/react";
 import { io, Socket } from "socket.io-client";
 
-interface Task {
+export interface Task {
   id: string;
   title: string;
   status: string;
