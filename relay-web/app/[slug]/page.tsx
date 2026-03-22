@@ -8,6 +8,7 @@ import NotificationBell from "@/components/notifications/NotificationBell";
 import CreateProjectModal from "@/components/project/CreateProjectModal";
 import ActivityFeed from "@/components/activity/ActivityFeed";
 import ProjectCard from "@/components/project/ProjectCard";
+import SearchBar from "@/components/workspace/SearchBar";
 
 export default async function WorkspacePage({
   params,
@@ -66,6 +67,7 @@ export default async function WorkspacePage({
           <span className="font-semibold text-gray-900">{workspace.name}</span>
         </div>
         <div className="flex items-center gap-4">
+          <SearchBar slug={slug} />
           <NotificationBell />
           <span className="text-sm text-gray-500">{session.user?.email}</span>
           <LogoutButton />
