@@ -11,6 +11,7 @@ import AttachmentsSection from "@/components/attachment/AttachmentsSection";
 import TaskLabels from "@/components/task/TaskLabels";
 import TaskActions from "@/components/task/TaskActions";
 import WorkspaceSwitcher from "@/components/workspace/WorkspaceSwitcher";
+import AISummary from "@/components/task/AISummary";
 
 export default async function TaskDetailPage({
   params,
@@ -162,6 +163,8 @@ export default async function TaskDetailPage({
               {task.description}
             </p>
           )}
+
+          <AISummary taskId={taskId} readOnly={projectArchived} />
 
           <div className="mt-4 flex flex-wrap gap-4 border-t border-gray-100 pt-4 dark:border-gray-800">
             <div>

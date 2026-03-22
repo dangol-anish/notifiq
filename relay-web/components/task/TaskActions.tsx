@@ -4,6 +4,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
+/** Neon / drivers may return `due_date` as a string or a Date. */
+function formatDueDateForInput(value: unknown): string {
+  if (value == null || value === "") return "";
+  if (typeof value === "string") return value.slice(0, 10);
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString().slice(0, 10);
+  }
+  const d = new Date(value as string);
+  return Number.isNaN(d.getTime()) ? "" : d.toISOString().slice(0, 10);
+}
+
 interface Props {
   taskId: string;
   projectId: string;
@@ -11,7 +22,7 @@ interface Props {
   currentTitle: string;
   currentDescription?: string;
   currentPriority: string;
-  currentDueDate?: string;
+  currentDueDate?: string | Date | null;
   members: any[];
   currentAssigneeId?: string;
   canEdit: boolean;
@@ -38,7 +49,9 @@ export default function TaskActions({
   const [title, setTitle] = useState(currentTitle);
   const [description, setDescription] = useState(currentDescription || "");
   const [priority, setPriority] = useState(currentPriority);
-  const [dueDate, setDueDate] = useState(currentDueDate?.slice(0, 10) || "");
+  const [dueDate, setDueDate] = useState(() =>
+    formatDueDateForInput(currentDueDate),
+  );
   const [assigneeId, setAssigneeId] = useState(currentAssigneeId || "");
 
   if (!canEdit) return null;
@@ -103,6 +116,11 @@ export default function TaskActions({
             <div className="absolute right-0 top-8 z-20 bg-white border border-gray-200 rounded-lg shadow-lg py-1 min-w-[130px]">
               <button
                 onClick={() => {
+                  setTitle(currentTitle);
+                  setDescription(currentDescription || "");
+                  setPriority(currentPriority);
+                  setDueDate(formatDueDateForInput(currentDueDate));
+                  setAssigneeId(currentAssigneeId || "");
                   setShowEdit(true);
                   setShowMenu(false);
                 }}

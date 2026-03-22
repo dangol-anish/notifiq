@@ -7,6 +7,7 @@ import LogoutButton from "@/components/auth/LogoutButton";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import KanbanBoard from "@/components/task/KanbanBoard";
 import CreateTaskModal from "@/components/task/CreateTaskModal";
+import AITaskGenerator from "@/components/task/AITaskGenerator";
 import ProjectActionsWrapper from "@/components/project/ProjectActionsWrapper";
 import { TaskProvider } from "@/context/TaskContext";
 import WorkspaceSwitcher from "@/components/workspace/WorkspaceSwitcher";
@@ -129,11 +130,17 @@ export default async function ProjectPage({
                 />
               )}
               {!projectArchived && (
-                <CreateTaskModal
-                  projectId={projectId}
-                  workspaceSlug={slug}
-                  members={members as any[]}
-                />
+                <>
+                  <AITaskGenerator
+                    projectId={projectId}
+                    workspaceSlug={slug}
+                  />
+                  <CreateTaskModal
+                    projectId={projectId}
+                    workspaceSlug={slug}
+                    members={members as any[]}
+                  />
+                </>
               )}
             </div>
           </div>
