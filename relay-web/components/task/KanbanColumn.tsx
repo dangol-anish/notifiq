@@ -31,7 +31,7 @@ export default function KanbanColumn({
     <div className="flex-1 min-w-[240px] max-w-[320px]">
       <div className="flex items-center gap-2 mb-3">
         <span className={`w-2 h-2 rounded-full ${color}`} />
-        <h3 className="text-sm font-semibold text-gray-700">{title}</h3>
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">{title}</h3>
         <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-full">
           {tasks.length}
         </span>
@@ -39,9 +39,9 @@ export default function KanbanColumn({
 
       <div
         ref={setNodeRef}
-        className={`space-y-2 min-h-[100px] rounded-lg p-2 transition-colors ${
+        className={`min-h-[100px] space-y-2 rounded-lg p-2 transition-colors ${
           isOver
-            ? "bg-blue-50 border-2 border-blue-200 border-dashed"
+            ? "border-2 border-dashed border-blue-200 bg-blue-50 dark:border-blue-700 dark:bg-blue-950/40"
             : "border-2 border-transparent"
         }`}
       >

@@ -9,6 +9,7 @@ import KanbanBoard from "@/components/task/KanbanBoard";
 import CreateTaskModal from "@/components/task/CreateTaskModal";
 import ProjectActionsWrapper from "@/components/project/ProjectActionsWrapper";
 import { TaskProvider } from "@/context/TaskContext";
+import WorkspaceSwitcher from "@/components/workspace/WorkspaceSwitcher";
 
 export default async function ProjectPage({
   params,
@@ -71,46 +72,45 @@ export default async function ProjectPage({
 
   return (
     <TaskProvider workspaceId={workspace.id} initialTasks={tasks as any[]}>
-      <main className="min-h-screen bg-gray-50 overflow-x-hidden">
-        <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+      <main className="min-h-screen overflow-x-hidden bg-gray-50 dark:bg-gray-950">
+        <nav className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 dark:border-gray-800 dark:bg-gray-900">
           <div className="flex items-center gap-3">
             <Link
               href="/dashboard"
-              className="text-gray-400 hover:text-gray-600 text-sm"
+              className="text-sm text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
             >
               Dashboard
             </Link>
-            <span className="text-gray-300">/</span>
-            <Link
-              href={`/${slug}`}
-              className="text-gray-400 hover:text-gray-600 text-sm"
-            >
-              {workspace.name}
-            </Link>
-            <span className="text-gray-300">/</span>
-            <span className="font-semibold text-gray-900">{project.name}</span>
+            <span className="text-gray-300 dark:text-gray-600">/</span>
+            <WorkspaceSwitcher
+              currentSlug={slug}
+              currentName={workspace.name as string}
+              variant="breadcrumb"
+            />
+            <span className="text-gray-300 dark:text-gray-600">/</span>
+            <span className="font-semibold text-gray-900 dark:text-gray-100">{project.name}</span>
           </div>
           <div className="flex items-center gap-4">
             <NotificationBell />
-            <span className="text-sm text-gray-500">{session.user?.email}</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">{session.user?.email}</span>
             <LogoutButton />
           </div>
         </nav>
 
         <div className="max-w-7xl mx-auto mt-8 px-6 overflow-x-clip">
           {projectArchived && (
-            <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950/50 dark:text-amber-200">
               This project is <strong>archived</strong>. You can view tasks, but
               editing and new work are disabled until you restore it.
             </div>
           )}
           <div className="flex items-center justify-between mb-6 gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {project.name}
               </h1>
               {project.description && (
-                <p className="text-gray-500 text-sm mt-1">
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                   {project.description}
                 </p>
               )}

@@ -9,6 +9,7 @@ import CreateProjectModal from "@/components/project/CreateProjectModal";
 import ActivityFeed from "@/components/activity/ActivityFeed";
 import ProjectCard from "@/components/project/ProjectCard";
 import SearchBar from "@/components/workspace/SearchBar";
+import WorkspaceSwitcher from "@/components/workspace/WorkspaceSwitcher";
 
 export default async function WorkspacePage({
   params,
@@ -59,22 +60,25 @@ export default async function WorkspacePage({
   );
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <nav className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 dark:border-gray-800 dark:bg-gray-900">
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard"
-            className="text-gray-400 hover:text-gray-600 text-sm"
+            className="text-sm text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
           >
             ← Dashboard
           </Link>
-          <span className="text-gray-300">/</span>
-          <span className="font-semibold text-gray-900">{workspace.name}</span>
+          <span className="text-gray-300 dark:text-gray-600">/</span>
+          <WorkspaceSwitcher
+            currentSlug={slug}
+            currentName={workspace.name}
+          />
         </div>
         <div className="flex items-center gap-4">
           <SearchBar slug={slug} />
           <NotificationBell />
-          <span className="text-sm text-gray-500">{session.user?.email}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{session.user?.email}</span>
           <LogoutButton />
         </div>
       </nav>
@@ -82,17 +86,17 @@ export default async function WorkspacePage({
       <div className="max-w-6xl mx-auto mt-12 px-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               {workspace.name}
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               {members.length} member{members.length !== 1 ? "s" : ""}
             </p>
           </div>
           <div className="flex gap-3">
             <Link
               href={`/${slug}/settings`}
-              className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
             >
               Settings
             </Link>
@@ -103,7 +107,7 @@ export default async function WorkspacePage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             {activeProjects.length === 0 && archivedProjects.length === 0 ? (
-              <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+              <div className="rounded-xl border border-gray-200 bg-white p-12 text-center dark:border-gray-800 dark:bg-gray-900">
                 <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <svg
                     className="w-6 h-6 text-blue-500"
@@ -130,7 +134,7 @@ export default async function WorkspacePage({
             ) : (
               <div className="space-y-8">
                 {activeProjects.length === 0 ? (
-                  <div className="bg-white rounded-xl border border-dashed border-gray-200 p-8 text-center">
+                  <div className="rounded-xl border border-dashed border-gray-200 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-900">
                     <p className="text-sm text-gray-500">
                       No active projects. Restore one from archived or create a
                       new project.
@@ -155,7 +159,7 @@ export default async function WorkspacePage({
                 )}
 
                 {archivedProjects.length > 0 && (
-                  <details className="group rounded-xl border border-gray-200 bg-gray-50/80">
+                  <details className="group rounded-xl border border-gray-200 bg-gray-50/80 dark:border-gray-800 dark:bg-gray-900/50">
                     <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-gray-600 flex items-center justify-between gap-2 [&::-webkit-details-marker]:hidden">
                       <span>
                         Archived projects
@@ -167,7 +171,7 @@ export default async function WorkspacePage({
                         ▼
                       </span>
                     </summary>
-                    <div className="px-4 pb-4 pt-0 border-t border-gray-100">
+                    <div className="border-t border-gray-100 px-4 pb-4 pt-0 dark:border-gray-800">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                         {archivedProjects.map((p: any) => (
                           <ProjectCard

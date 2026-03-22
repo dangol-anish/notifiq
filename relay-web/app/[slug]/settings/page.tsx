@@ -10,6 +10,7 @@ import ManageLabels from "@/components/workspace/ManageLabels";
 import WorkspaceSettingsForm from "@/components/workspace/WorkspaceSettingsForm";
 import MemberListWithActions from "@/components/workspace/MemberListWithActions";
 import DeleteWorkspaceButton from "@/components/workspace/DeleteWorkspaceButton";
+import WorkspaceSwitcher from "@/components/workspace/WorkspaceSwitcher";
 
 export default async function WorkspaceSettingsPage({
   params,
@@ -43,18 +44,20 @@ export default async function WorkspaceSettingsPage({
   const isAdmin = workspace.role === "admin";
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <nav className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 dark:border-gray-800 dark:bg-gray-900">
         <div className="flex items-center gap-3 text-sm">
-          <Link href="/dashboard" className="text-gray-400 hover:text-gray-600">
+          <Link href="/dashboard" className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
             Dashboard
           </Link>
-          <span className="text-gray-300">/</span>
-          <Link href={`/${slug}`} className="text-gray-400 hover:text-gray-600">
-            {workspace.name}
-          </Link>
-          <span className="text-gray-300">/</span>
-          <span className="font-semibold text-gray-900">Settings</span>
+          <span className="text-gray-300 dark:text-gray-600">/</span>
+          <WorkspaceSwitcher
+            currentSlug={slug}
+            currentName={workspace.name}
+            variant="breadcrumb"
+          />
+          <span className="text-gray-300 dark:text-gray-600">/</span>
+          <span className="font-semibold text-gray-900 dark:text-gray-100">Settings</span>
         </div>
         <div className="flex items-center gap-4">
           <NotificationBell />
@@ -72,9 +75,9 @@ export default async function WorkspaceSettingsPage({
         />
 
         {/* Members */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-gray-900">
+        <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               Members ({members.length})
             </h2>
             {(isOwner || isAdmin) && <InviteMemberModal slug={slug} />}
@@ -92,11 +95,11 @@ export default async function WorkspaceSettingsPage({
 
         {/* Danger zone */}
         {isOwner && (
-          <div className="bg-white rounded-xl border border-red-200 p-6">
-            <h2 className="text-sm font-semibold text-red-600 mb-2">
+          <div className="rounded-xl border border-red-200 bg-white p-6 dark:border-red-900/60 dark:bg-red-950/20">
+            <h2 className="mb-2 text-sm font-semibold text-red-600 dark:text-red-400">
               Danger zone
             </h2>
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
               Deleting this workspace is permanent. All projects, tasks, and
               data will be lost.
             </p>

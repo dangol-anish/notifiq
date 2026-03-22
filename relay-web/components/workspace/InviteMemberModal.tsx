@@ -74,36 +74,40 @@ export default function InviteMemberModal({ slug }: Props) {
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900">
+            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
               Invite Member
             </h2>
 
             {!inviteUrl ? (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Email address
                   </label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
                     placeholder="teammate@example.com"
                     required
                     autoFocus
                   />
                 </div>
 
-                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {error && (
+                  <p className="text-sm text-red-500 dark:text-red-400">
+                    {error}
+                  </p>
+                )}
 
-                <div className="flex gap-3 justify-end">
+                <div className="flex justify-end gap-3">
                   <button
                     type="button"
                     onClick={() => setIsOpen(false)}
-                    className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900"
+                    className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
                   >
                     Cancel
                   </button>
@@ -119,26 +123,26 @@ export default function InviteMemberModal({ slug }: Props) {
             ) : (
               <div className="space-y-4">
                 {emailSent ? (
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
                     We sent an invite to <strong>{email}</strong>. They can also
                     use the link below if needed.
                   </p>
                 ) : (
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
                     {emailError ? (
                       <span className="block">
                         {isResendTestSenderRestriction(emailError) ? (
-                          <span className="text-amber-900 bg-amber-50 border border-amber-200 rounded-lg px-3 py-3 text-xs block mb-3 space-y-2">
-                            <p className="font-medium text-amber-950">
+                          <span className="mb-3 block space-y-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-xs text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+                            <p className="font-medium text-amber-950 dark:text-amber-100">
                               Resend’s test sender only delivers to your own
                               inbox. To email <strong>{email}</strong> (or anyone
                               else), verify a domain and set{" "}
-                              <code className="font-mono bg-amber-100/80 px-1 rounded">
+                              <code className="rounded bg-amber-100/80 px-1 font-mono dark:bg-amber-900/50">
                                 RESEND_FROM
                               </code>
                               .
                             </p>
-                            <ol className="list-decimal list-inside space-y-1 text-amber-900">
+                            <ol className="list-inside list-decimal space-y-1 text-amber-900 dark:text-amber-200">
                               <li>
                                 Add & verify a domain at{" "}
                                 <a
@@ -152,28 +156,28 @@ export default function InviteMemberModal({ slug }: Props) {
                               </li>
                               <li>
                                 Set{" "}
-                                <code className="font-mono bg-amber-100/80 px-1 rounded">
+                                <code className="rounded bg-amber-100/80 px-1 font-mono dark:bg-amber-900/50">
                                   RESEND_FROM
                                 </code>{" "}
                                 to something like{" "}
-                                <code className="font-mono bg-amber-100/80 px-1 rounded">
+                                <code className="rounded bg-amber-100/80 px-1 font-mono dark:bg-amber-900/50">
                                   Notifiq &lt;invite@yourdomain.com&gt;
                                 </code>
                               </li>
                             </ol>
-                            <p className="text-amber-800 pt-1">
+                            <p className="pt-1 text-amber-800 dark:text-amber-300">
                               Until then, share the link below manually.
                             </p>
                           </span>
                         ) : /SMTP_|EMAIL_FROM|RESEND_API_KEY|No email provider/i.test(
                             emailError,
                           ) ? (
-                          <span className="text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-xs block mb-3">
+                          <span className="mb-3 block rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
                             Email could not be sent: {emailError}. Fix your env
                             vars or share the link below.
                           </span>
                         ) : (
-                          <span className="text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-xs block mb-3">
+                          <span className="mb-3 block rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
                             Email could not be sent: {emailError}. Share the link
                             below manually.
                           </span>
@@ -187,14 +191,16 @@ export default function InviteMemberModal({ slug }: Props) {
                     )}
                   </p>
                 )}
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 break-all">
-                  <p className="text-xs text-gray-700 font-mono">{inviteUrl}</p>
+                <div className="break-all rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800/50">
+                  <p className="font-mono text-xs text-gray-700 dark:text-gray-300">
+                    {inviteUrl}
+                  </p>
                 </div>
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(inviteUrl);
                   }}
-                  className="w-full border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
                 >
                   Copy link
                 </button>

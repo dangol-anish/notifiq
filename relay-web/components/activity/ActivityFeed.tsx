@@ -22,12 +22,16 @@ export default function ActivityFeed({ slug }: Props) {
   }, [slug]);
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6">
-      <h2 className="text-sm font-semibold text-gray-900 mb-4">Activity</h2>
+    <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
+        Activity
+      </h2>
       {loading ? (
-        <p className="text-sm text-gray-400">Loading...</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500">Loading...</p>
       ) : events.length === 0 ? (
-        <p className="text-sm text-gray-400">No activity yet.</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500">
+          No activity yet.
+        </p>
       ) : (
         <div className="space-y-4">
           {events.map((e) => (

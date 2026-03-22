@@ -21,14 +21,14 @@ export default async function DashboardPage() {
   `;
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
-        <span className="font-semibold text-gray-900">Notifiq</span>
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <nav className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 dark:border-gray-800 dark:bg-gray-900">
+        <span className="font-semibold text-gray-900 dark:text-gray-100">Notifiq</span>
         <div className="flex items-center gap-4">
           <NotificationBell />
           <Link
             href="/profile"
-            className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+            className="text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
           >
             {session.user?.name || session.user?.email}
           </Link>
@@ -39,8 +39,8 @@ export default async function DashboardPage() {
       <div className="max-w-4xl mx-auto mt-12 px-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Workspaces</h1>
-            <p className="text-gray-500 mt-1">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Workspaces</h1>
+            <p className="mt-1 text-gray-500 dark:text-gray-400">
               Welcome back, {session.user?.name || session.user?.email}
             </p>
           </div>

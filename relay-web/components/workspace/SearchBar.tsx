@@ -17,10 +17,10 @@ interface Props {
 }
 
 const priorityColors: Record<string, string> = {
-  urgent: "text-red-500",
-  high: "text-orange-500",
-  medium: "text-yellow-500",
-  low: "text-gray-400",
+  urgent: "text-red-500 dark:text-red-400",
+  high: "text-orange-500 dark:text-orange-400",
+  medium: "text-yellow-600 dark:text-yellow-400",
+  low: "text-gray-400 dark:text-gray-500",
 };
 
 export default function SearchBar({ slug }: Props) {
@@ -81,9 +81,9 @@ export default function SearchBar({ slug }: Props) {
 
   return (
     <div className="relative">
-      <div className="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-1.5 w-56">
+      <div className="flex w-56 items-center gap-2 rounded-lg bg-gray-100 px-3 py-1.5 dark:bg-gray-800">
         <svg
-          className="w-3.5 h-3.5 text-gray-400 shrink-0"
+          className="h-3.5 w-3.5 shrink-0 text-gray-400 dark:text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -101,7 +101,7 @@ export default function SearchBar({ slug }: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search tasks..."
-          className="bg-transparent text-sm text-gray-700 placeholder-gray-400 focus:outline-none w-full"
+          className="w-full bg-transparent text-sm text-gray-700 placeholder-gray-400 focus:outline-none dark:text-gray-200 dark:placeholder-gray-500"
         />
         {query && (
           <button
@@ -109,13 +109,13 @@ export default function SearchBar({ slug }: Props) {
               setQuery("");
               setIsOpen(false);
             }}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             ✕
           </button>
         )}
         {!query && (
-          <span className="text-xs text-gray-400 bg-gray-200 px-1.5 py-0.5 rounded shrink-0">
+          <span className="shrink-0 rounded bg-gray-200 px-1.5 py-0.5 text-xs text-gray-400 dark:bg-gray-700 dark:text-gray-400">
             ⌘K
           </span>
         )}
@@ -127,32 +127,36 @@ export default function SearchBar({ slug }: Props) {
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute top-10 left-0 z-20 bg-white border border-gray-200 rounded-xl shadow-lg w-80 overflow-hidden">
+          <div className="absolute left-0 top-10 z-20 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900">
             {loading ? (
-              <div className="px-4 py-3 text-sm text-gray-400">
+              <div className="px-4 py-3 text-sm text-gray-400 dark:text-gray-500">
                 Searching...
               </div>
             ) : results.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-gray-400">
+              <div className="px-4 py-3 text-sm text-gray-400 dark:text-gray-500">
                 No results for "{query}"
               </div>
             ) : (
               <div>
-                <p className="text-xs text-gray-400 px-4 pt-3 pb-1">Tasks</p>
+                <p className="px-4 pb-1 pt-3 text-xs text-gray-400 dark:text-gray-500">
+                  Tasks
+                </p>
                 {results.map((result) => (
                   <button
                     key={result.id}
                     onClick={() => handleSelect(result)}
-                    className="w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors"
+                    className="w-full px-4 py-2.5 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
-                    <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                    <p className="line-clamp-1 text-sm font-medium text-gray-900 dark:text-gray-100">
                       {result.title}
                     </p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-xs text-gray-400">
+                    <div className="mt-0.5 flex items-center gap-2">
+                      <span className="text-xs text-gray-400 dark:text-gray-500">
                         {result.project_name}
                       </span>
-                      <span className="text-xs text-gray-300">·</span>
+                      <span className="text-xs text-gray-300 dark:text-gray-600">
+                        ·
+                      </span>
                       <span
                         className={`text-xs font-medium ${priorityColors[result.priority]}`}
                       >

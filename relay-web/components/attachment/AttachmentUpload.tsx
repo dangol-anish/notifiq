@@ -61,10 +61,10 @@ export default function AttachmentUpload({ taskId, onUploadComplete }: Props) {
         setIsDragging(false);
         handleFiles(e.dataTransfer.files);
       }}
-      className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${
+      className={`rounded-lg border-2 border-dashed p-4 text-center transition-colors ${
         isDragging
-          ? "border-blue-400 bg-blue-50"
-          : "border-gray-200 hover:border-gray-300"
+          ? "border-blue-400 bg-blue-50 dark:bg-blue-950/40"
+          : "border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600"
       }`}
     >
       {uploading ? (
@@ -84,7 +84,7 @@ export default function AttachmentUpload({ taskId, onUploadComplete }: Props) {
               />
             </label>
           </p>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
             Images up to 4MB, PDFs up to 8MB
           </p>
         </>

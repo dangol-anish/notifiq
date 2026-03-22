@@ -23,14 +23,14 @@ export default function ProjectCard({ project, slug, canEdit }: Props) {
   return (
     <div
       onClick={() => router.push(`/${slug}/projects/${project.id}`)}
-      className={`bg-white rounded-xl border p-6 transition-all cursor-pointer relative ${
+      className={`relative cursor-pointer rounded-xl border bg-white p-6 transition-all dark:bg-gray-900 ${
         archived
-          ? "border-gray-200 border-dashed opacity-95 hover:border-gray-300"
-          : "border-gray-200 hover:border-blue-300 hover:shadow-sm"
+          ? "border-dashed border-gray-200 opacity-95 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600"
+          : "border-gray-200 hover:border-blue-300 hover:shadow-sm dark:border-gray-800 dark:hover:border-blue-500"
       }`}
     >
       <div className="flex items-start justify-between">
-        <h3 className="font-semibold text-gray-900">{project.name}</h3>
+        <h3 className="font-semibold text-gray-900 dark:text-gray-100">{project.name}</h3>
         <div onClick={(e) => e.stopPropagation()}>
           <ProjectActions project={project} slug={slug} canEdit={canEdit} />
         </div>

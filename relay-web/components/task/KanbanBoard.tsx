@@ -11,12 +11,12 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
-import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo, useState, useRef } from "react";
 import { useTasks } from "@/context/TaskContext";
 import KanbanColumn from "./KanbanColumn";
 import TaskCard from "./TaskCard";
 import KanbanFilters from "./KanbanFilters";
+import { sortTasksForKanban, type TaskSortBy, type TaskSortDir } from "./sortTasks";
 import toast from "react-hot-toast";
 
 interface Props {
@@ -48,7 +48,8 @@ export default function KanbanBoard({
     priority: "",
     labelId: "",
   });
-  const router = useRouter();
+  const [sortBy, setSortBy] = useState<TaskSortBy>("created_at");
+  const [sortDir, setSortDir] = useState<TaskSortDir>("desc");
   const originalStatusRef = useRef<string | null>(null);
 
   const sensors = useSensors(
@@ -73,6 +74,11 @@ export default function KanbanBoard({
       return false;
     return true;
   });
+
+  const sortedTasks = useMemo(
+    () => sortTasksForKanban(filteredTasks, sortBy, sortDir),
+    [filteredTasks, sortBy, sortDir],
+  );
 
   const activeTask = tasks.find((t) => t.id === activeTaskId);
 
@@ -152,6 +158,12 @@ export default function KanbanBoard({
         labels={labels}
         filters={filters}
         onChange={setFilters}
+        sortBy={sortBy}
+        sortDir={sortDir}
+        onSortChange={(by, dir) => {
+          setSortBy(by);
+          setSortDir(dir);
+        }}
       />
 
       {readOnly && (
@@ -173,7 +185,7 @@ export default function KanbanBoard({
               key={col.status}
               title={col.title}
               status={col.status}
-              tasks={filteredTasks.filter((t) => t.status === col.status)}
+              tasks={sortedTasks.filter((t) => t.status === col.status)}
               workspaceSlug={workspaceSlug}
               projectId={projectId}
               color={col.color}

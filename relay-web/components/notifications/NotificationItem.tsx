@@ -14,8 +14,10 @@ export default function NotificationItem({ notification, onMarkRead }: Props) {
   return (
     <div
       onClick={() => !notification.read && onMarkRead(notification.id)}
-      className={`px-4 py-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
-        !notification.read ? 'bg-blue-50' : 'bg-white'
+      className={`cursor-pointer border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/80 ${
+        !notification.read
+          ? "bg-blue-50 dark:bg-blue-950/40"
+          : "bg-white dark:bg-gray-900"
       }`}
     >
       <div className="flex items-start justify-between gap-2">
@@ -24,15 +26,25 @@ export default function NotificationItem({ notification, onMarkRead }: Props) {
             <span className="mt-1.5 w-2 h-2 rounded-full bg-blue-500 shrink-0" />
           )}
           <div>
-            <p className={`text-sm ${!notification.read ? 'font-semibold text-gray-900' : 'font-normal text-gray-600'}`}>
+            <p
+              className={`text-sm ${
+                !notification.read
+                  ? "font-semibold text-gray-900 dark:text-gray-100"
+                  : "font-normal text-gray-600 dark:text-gray-400"
+              }`}
+            >
               {notification.title}
             </p>
             {notification.body && (
-              <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{notification.body}</p>
+              <p className="mt-0.5 line-clamp-2 text-xs text-gray-500 dark:text-gray-400">
+                {notification.body}
+              </p>
             )}
           </div>
         </div>
-        <span className="text-xs text-gray-400 shrink-0">{timeAgo}</span>
+        <span className="shrink-0 text-xs text-gray-400 dark:text-gray-500">
+          {timeAgo}
+        </span>
       </div>
     </div>
   )

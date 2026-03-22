@@ -13,10 +13,12 @@ interface Props {
 }
 
 const priorityColors: Record<string, string> = {
-  urgent: "bg-red-100 text-red-700",
-  high: "bg-orange-100 text-orange-700",
-  medium: "bg-yellow-100 text-yellow-700",
-  low: "bg-gray-100 text-gray-600",
+  urgent:
+    "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
+  high: "bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300",
+  medium:
+    "bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300",
+  low: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
 };
 
 export default function TaskCard({
@@ -56,9 +58,9 @@ export default function TaskCard({
           }}
         >
           <div
-            className={`bg-white rounded-lg border border-gray-200 p-3 hover:border-blue-300 hover:shadow-sm transition-all ${isDragging ? "" : "cursor-pointer"}`}
+            className={`rounded-lg border border-gray-200 bg-white p-3 transition-all hover:border-blue-300 hover:shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-500 ${isDragging ? "" : "cursor-pointer"}`}
           >
-            <p className="text-sm font-medium text-gray-900 line-clamp-2">
+            <p className="line-clamp-2 text-sm font-medium text-gray-900 dark:text-gray-100">
               {task.title}
             </p>
 

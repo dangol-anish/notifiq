@@ -10,6 +10,7 @@ import TaskStatusSelect from "@/components/task/TaskStatusSelect";
 import AttachmentsSection from "@/components/attachment/AttachmentsSection";
 import TaskLabels from "@/components/task/TaskLabels";
 import TaskActions from "@/components/task/TaskActions";
+import WorkspaceSwitcher from "@/components/workspace/WorkspaceSwitcher";
 
 export default async function TaskDetailPage({
   params,
@@ -72,10 +73,12 @@ export default async function TaskDetailPage({
 `;
 
   const priorityColors: Record<string, string> = {
-    urgent: "bg-red-100 text-red-700",
-    high: "bg-orange-100 text-orange-700",
-    medium: "bg-yellow-100 text-yellow-700",
-    low: "bg-gray-100 text-gray-600",
+    urgent:
+      "bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400",
+    high: "bg-orange-100 text-orange-700 dark:bg-orange-950/40 dark:text-orange-400",
+    medium:
+      "bg-yellow-100 text-yellow-700 dark:bg-yellow-950/40 dark:text-yellow-400",
+    low: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
   };
 
   const members = await sql`
@@ -93,25 +96,27 @@ export default async function TaskDetailPage({
   const canEdit = userRole.length > 0;
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <nav className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 dark:border-gray-800 dark:bg-gray-900">
         <div className="flex items-center gap-3 text-sm">
-          <Link href="/dashboard" className="text-gray-400 hover:text-gray-600">
+          <Link href="/dashboard" className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
             Dashboard
           </Link>
-          <span className="text-gray-300">/</span>
-          <Link href={`/${slug}`} className="text-gray-400 hover:text-gray-600">
-            {workspace.name}
-          </Link>
-          <span className="text-gray-300">/</span>
+          <span className="text-gray-300 dark:text-gray-600">/</span>
+          <WorkspaceSwitcher
+            currentSlug={slug}
+            currentName={workspace.name as string}
+            variant="breadcrumb"
+          />
+          <span className="text-gray-300 dark:text-gray-600">/</span>
           <Link
             href={`/${slug}/projects/${projectId}`}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
           >
             Project
           </Link>
-          <span className="text-gray-300">/</span>
-          <span className="font-semibold text-gray-900 line-clamp-1">
+          <span className="text-gray-300 dark:text-gray-600">/</span>
+          <span className="line-clamp-1 font-semibold text-gray-900 dark:text-gray-100">
             {task.title}
           </span>
         </div>
@@ -123,14 +128,14 @@ export default async function TaskDetailPage({
 
       <div className="max-w-4xl mx-auto mt-8 px-6 pb-12">
         {projectArchived && (
-          <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950/50 dark:text-amber-200">
             This project is archived. Task details are read-only until the project
             is restored.
           </div>
         )}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
           <div className="flex items-start justify-between gap-4">
-            <h1 className="text-xl font-bold text-gray-900">{task.title}</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{task.title}</h1>
             <div className="flex items-center gap-2">
               <TaskStatusSelect
                 taskId={taskId}
@@ -153,12 +158,16 @@ export default async function TaskDetailPage({
           </div>
 
           {task.description && (
-            <p className="text-gray-600 text-sm mt-3">{task.description}</p>
+            <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
+              {task.description}
+            </p>
           )}
 
-          <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-100">
+          <div className="mt-4 flex flex-wrap gap-4 border-t border-gray-100 pt-4 dark:border-gray-800">
             <div>
-              <p className="text-xs text-gray-400 mb-1">Priority</p>
+              <p className="mb-1 text-xs text-gray-400 dark:text-gray-500">
+                Priority
+              </p>
               <span
                 className={`text-xs px-2 py-1 rounded-full font-medium ${priorityColors[task.priority]}`}
               >
@@ -168,12 +177,14 @@ export default async function TaskDetailPage({
 
             {task.assignee_name && (
               <div>
-                <p className="text-xs text-gray-400 mb-1">Assignee</p>
+                <p className="mb-1 text-xs text-gray-400 dark:text-gray-500">
+                  Assignee
+                </p>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs text-white">
                     {task.assignee_name.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
                     {task.assignee_name}
                   </span>
                 </div>
@@ -182,8 +193,10 @@ export default async function TaskDetailPage({
 
             {task.due_date && (
               <div>
-                <p className="text-xs text-gray-400 mb-1">Due date</p>
-                <span className="text-sm text-gray-700">
+                <p className="mb-1 text-xs text-gray-400 dark:text-gray-500">
+                  Due date
+                </p>
+                <span className="text-sm text-gray-700 dark:text-gray-300">
                   {new Date(task.due_date).toLocaleDateString()}
                 </span>
               </div>
@@ -199,8 +212,12 @@ export default async function TaskDetailPage({
             </div>
 
             <div>
-              <p className="text-xs text-gray-400 mb-1">Created by</p>
-              <span className="text-sm text-gray-700">{task.creator_name}</span>
+              <p className="mb-1 text-xs text-gray-400 dark:text-gray-500">
+                Created by
+              </p>
+              <span className="text-sm text-gray-700 dark:text-gray-300">
+                {task.creator_name}
+              </span>
             </div>
           </div>
         </div>

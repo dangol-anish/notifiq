@@ -8,10 +8,10 @@ export default async function Home() {
   if (session) redirect("/dashboard");
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white dark:bg-gray-950">
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-gray-950/80">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
               <svg
@@ -28,18 +28,20 @@ export default async function Home() {
                 />
               </svg>
             </div>
-            <span className="font-bold text-gray-900 text-lg">Notifiq</span>
+            <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              Notifiq
+            </span>
           </div>
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-sm text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
             >
               Sign in
             </Link>
             <Link
               href="/register"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
             >
               Get started free
             </Link>
@@ -48,19 +50,21 @@ export default async function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-6">
-        <div className="max-w-6xl mx-auto">
+      <section className="px-6 pb-20 pt-32">
+        <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-full mb-6">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 dark:bg-blue-950/50 dark:text-blue-300">
               <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
               Real-time collaboration
             </div>
-            <h1 className="text-5xl sm:text-6xl font-bold text-gray-900 leading-tight tracking-tight">
+            <h1 className="text-5xl font-bold leading-tight tracking-tight text-gray-900 sm:text-6xl dark:text-gray-100">
               Your team,
               <br />
-              <span className="text-blue-600">always in sync.</span>
+              <span className="text-blue-600 dark:text-blue-400">
+                always in sync.
+              </span>
             </h1>
-            <p className="text-xl text-gray-500 mt-6 leading-relaxed max-w-xl">
+            <p className="mt-6 max-w-xl text-xl leading-relaxed text-gray-500 dark:text-gray-400">
               Notifiq is a team collaboration platform with live task updates,
               instant notifications, and a Kanban board that reflects reality —
               not a stale refresh.
@@ -74,7 +78,7 @@ export default async function Home() {
               </Link>
               <Link
                 href="/login"
-                className="text-gray-600 hover:text-gray-900 transition-colors text-base font-medium"
+                className="text-base font-medium text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
               >
                 Sign in →
               </Link>
@@ -82,36 +86,38 @@ export default async function Home() {
           </div>
 
           {/* App mockup */}
-          <div className="mt-16 rounded-2xl border border-gray-200 shadow-2xl shadow-gray-100 overflow-hidden">
+          <div className="mt-16 overflow-hidden rounded-2xl border border-gray-200 shadow-2xl shadow-gray-100 dark:border-gray-700 dark:shadow-none">
             {/* Browser chrome */}
-            <div className="bg-gray-100 px-4 py-3 flex items-center gap-2 border-b border-gray-200">
+            <div className="flex items-center gap-2 border-b border-gray-200 bg-gray-100 px-4 py-3 dark:border-gray-700 dark:bg-gray-800">
               <div className="w-3 h-3 rounded-full bg-red-400" />
               <div className="w-3 h-3 rounded-full bg-yellow-400" />
               <div className="w-3 h-3 rounded-full bg-green-400" />
-              <div className="flex-1 mx-4">
-                <div className="bg-white rounded-md px-3 py-1 text-xs text-gray-400 max-w-xs">
+              <div className="mx-4 flex-1">
+                <div className="max-w-xs rounded-md bg-white px-3 py-1 text-xs text-gray-400 dark:bg-gray-900 dark:text-gray-500">
                   notifiq.vercel.app
                 </div>
               </div>
             </div>
 
             {/* App UI mockup */}
-            <div className="bg-gray-50">
+            <div className="bg-gray-50 dark:bg-gray-900/80">
               {/* App nav */}
-              <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
-                <div className="flex items-center gap-3 text-sm text-gray-500">
+              <div className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 dark:border-gray-700 dark:bg-gray-900">
+                <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
                   <span>Dashboard</span>
-                  <span className="text-gray-300">/</span>
+                  <span className="text-gray-300 dark:text-gray-600">/</span>
                   <span>Engineering</span>
-                  <span className="text-gray-300">/</span>
-                  <span className="font-semibold text-gray-900">Sprint 12</span>
+                  <span className="text-gray-300 dark:text-gray-600">/</span>
+                  <span className="font-semibold text-gray-900 dark:text-gray-100">
+                    Sprint 12
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Notification bell mockup */}
                   <div className="relative">
-                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
                       <svg
-                        className="w-4 h-4 text-gray-500"
+                        className="h-4 w-4 text-gray-500 dark:text-gray-400"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -215,10 +221,10 @@ export default async function Home() {
                     <div key={col.title} className="w-56">
                       <div className="flex items-center gap-2 mb-3">
                         <span className={`w-2 h-2 rounded-full ${col.color}`} />
-                        <span className="text-xs font-semibold text-gray-700">
+                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
                           {col.title}
                         </span>
-                        <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                        <span className="rounded-full bg-gray-100 px-1.5 py-0.5 text-xs text-gray-400 dark:bg-gray-800 dark:text-gray-500">
                           {col.tasks.length}
                         </span>
                       </div>
@@ -226,9 +232,9 @@ export default async function Home() {
                         {col.tasks.map((task, i) => (
                           <div
                             key={i}
-                            className="bg-white rounded-lg border border-gray-200 p-3"
+                            className="rounded-lg border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-800/80"
                           >
-                            <p className="text-xs font-medium text-gray-900">
+                            <p className="text-xs font-medium text-gray-900 dark:text-gray-100">
                               {task.title}
                             </p>
                             <div className="flex items-center gap-1.5 mt-2">
@@ -275,13 +281,13 @@ export default async function Home() {
       </section>
 
       {/* Features */}
-      <section className="py-20 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900">
+      <section className="bg-gray-50 px-6 py-20 dark:bg-gray-900/50">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-16 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
               Built for real teams
             </h2>
-            <p className="text-gray-500 mt-3 text-lg max-w-xl mx-auto">
+            <p className="mx-auto mt-3 max-w-xl text-lg text-gray-500 dark:text-gray-400">
               Everything your team needs to stay aligned — without the constant
               tab refreshing.
             </p>
@@ -412,15 +418,15 @@ export default async function Home() {
             ].map((feature) => (
               <div
                 key={feature.title}
-                className="bg-white rounded-xl border border-gray-200 p-6"
+                className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900"
               >
-                <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400">
                   {feature.icon}
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">
+                <h3 className="mb-2 font-semibold text-gray-900 dark:text-gray-100">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
+                <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400">
                   {feature.description}
                 </p>
               </div>
@@ -430,13 +436,13 @@ export default async function Home() {
       </section>
 
       {/* Tech stack */}
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
               Production-grade architecture
             </h2>
-            <p className="text-gray-500 mt-3 max-w-xl mx-auto">
+            <p className="mx-auto mt-3 max-w-xl text-gray-500 dark:text-gray-400">
               Built with the same tools used by real engineering teams — not a
               toy project.
             </p>
@@ -455,12 +461,14 @@ export default async function Home() {
             ].map((tech) => (
               <div
                 key={tech.name}
-                className="bg-gray-50 rounded-xl p-4 border border-gray-100"
+                className="rounded-xl border border-gray-100 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900/60"
               >
-                <p className="font-semibold text-gray-900 text-sm">
+                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                   {tech.name}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">{tech.desc}</p>
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  {tech.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -486,8 +494,8 @@ export default async function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-gray-100">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <footer className="border-t border-gray-100 px-6 py-8 dark:border-gray-800">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 bg-blue-600 rounded-md flex items-center justify-center">
               <svg
@@ -504,9 +512,11 @@ export default async function Home() {
                 />
               </svg>
             </div>
-            <span className="font-semibold text-gray-900">Notifiq</span>
+            <span className="font-semibold text-gray-900 dark:text-gray-100">
+              Notifiq
+            </span>
           </div>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-400 dark:text-gray-500">
             Built with Next.js, Socket.io, and PostgreSQL
           </p>
         </div>

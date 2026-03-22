@@ -50,16 +50,18 @@ export default function CommentThread({
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6">
-      <h2 className="text-sm font-semibold text-gray-900 mb-4">
+    <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
         Comments ({comments.length})
       </h2>
 
-      <div className="space-y-4 mb-6">
+      <div className="mb-6 space-y-4">
         {comments.length === 0 ? (
-          <div className="text-center py-4">
-            <p className="text-sm text-gray-400">No comments yet.</p>
-            <p className="text-xs text-gray-300 mt-1">
+          <div className="py-4 text-center">
+            <p className="text-sm text-gray-400 dark:text-gray-500">
+              No comments yet.
+            </p>
+            <p className="mt-1 text-xs text-gray-300 dark:text-gray-600">
               Start the conversation below.
             </p>
           </div>
@@ -78,7 +80,7 @@ export default function CommentThread({
               value={body}
               onChange={(e) => setBody(e.target.value)}
               placeholder="Add a comment... Use @name to mention someone"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
               rows={3}
             />
             <button
@@ -91,7 +93,7 @@ export default function CommentThread({
           </div>
         </form>
       ) : (
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-gray-400 dark:text-gray-500">
           Comments are read-only while the project is archived.
         </p>
       )}

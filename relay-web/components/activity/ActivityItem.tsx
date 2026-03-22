@@ -22,13 +22,16 @@ export default function ActivityItem({ event }: Props) {
         {event.actor_name?.charAt(0).toUpperCase() || "?"}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-gray-700 dark:text-gray-300">
           <span className="font-medium">{event.actor_name}</span> {label}
           {event.payload?.title && (
-            <span className="text-gray-500"> — {event.payload.title}</span>
+            <span className="text-gray-500 dark:text-gray-500">
+              {" "}
+              — {event.payload.title}
+            </span>
           )}
         </p>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="mt-0.5 text-xs text-gray-400 dark:text-gray-500">
           {formatDistanceToNow(new Date(event.created_at), { addSuffix: true })}
         </p>
       </div>

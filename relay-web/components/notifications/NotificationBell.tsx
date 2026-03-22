@@ -12,7 +12,7 @@ export default function NotificationBell() {
     <div className="relative">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+        className="relative rounded-full p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
         aria-label="Notifications"
       >
         {/* Bell icon */}
@@ -41,7 +41,7 @@ export default function NotificationBell() {
         {/* Connection indicator */}
         <span
           className={`absolute bottom-1 right-1 w-2 h-2 rounded-full ${
-            isConnected ? 'bg-green-400' : 'bg-gray-300'
+            isConnected ? 'bg-green-400' : 'bg-gray-300 dark:bg-gray-600'
           }`}
         />
       </button>
