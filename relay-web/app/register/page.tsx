@@ -118,7 +118,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Nav */}
-      <nav className="flex justify-between items-center w-full px-8 py-6">
+      <nav className="flex justify-between items-center w-full px-8 py-3">
         <div className="text-2xl font-serif italic text-primary">Notifiq</div>
         <div className="hidden md:flex gap-8 items-center">
           <Link
