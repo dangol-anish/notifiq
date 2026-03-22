@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Props {
   slug: string;
@@ -40,12 +41,12 @@ export default function WorkspaceSettingsForm({
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.error || "Something went wrong");
+      toast.error(data.error || "Something went wrong");
       setLoading(false);
       return;
     }
 
-    setSuccess(true);
+    toast.success("Workspace renamed!");
     setLoading(false);
     router.refresh();
   }

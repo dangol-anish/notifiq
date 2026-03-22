@@ -2,6 +2,7 @@
 
 import { useUploadThing } from "@/lib/uploadthing";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface Props {
   taskId: string;
@@ -26,12 +27,18 @@ export default function AttachmentUpload({ taskId, onUploadComplete }: Props) {
           }),
         });
         const data = await res.json();
-        if (res.ok) onUploadComplete(data.attachment);
+        if (res.ok) {
+          onUploadComplete(data.attachment);
+          toast.success("File uploaded!");
+        } else {
+          toast.error("Failed to save attachment");
+        }
       }
       setUploading(false);
     },
     onUploadError: (err) => {
       console.error("[upload] error:", err);
+      toast.error("Upload failed");
       setUploading(false);
     },
   });

@@ -1,41 +1,50 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import CommentItem from './CommentItem'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import CommentItem from "./CommentItem";
+import toast from "react-hot-toast";
 
 interface Props {
-  taskId: string
-  initialComments: any[]
-  currentUserId: string
-  currentUserName: string
+  taskId: string;
+  initialComments: any[];
+  currentUserId: string;
+  currentUserName: string;
 }
 
-export default function CommentThread({ taskId, initialComments, currentUserId, currentUserName }: Props) {
-  const router = useRouter()
-  const [comments, setComments] = useState(initialComments)
-  const [body, setBody] = useState('')
-  const [loading, setLoading] = useState(false)
+export default function CommentThread({
+  taskId,
+  initialComments,
+  currentUserId,
+  currentUserName,
+}: Props) {
+  const router = useRouter();
+  const [comments, setComments] = useState(initialComments);
+  const [body, setBody] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!body.trim()) return
-    setLoading(true)
+    e.preventDefault();
+    if (!body.trim()) return;
+    setLoading(true);
 
     const res = await fetch(`/api/tasks/${taskId}/comments`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ body }),
-    })
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (res.ok) {
-      setComments((prev) => [...prev, data.comment])
-      setBody('')
+      setComments((prev) => [...prev, data.comment]);
+      setBody("");
+      toast.success("Comment posted!");
+    } else {
+      toast.error("Failed to post comment");
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
@@ -46,7 +55,9 @@ export default function CommentThread({ taskId, initialComments, currentUserId, 
 
       <div className="space-y-4 mb-6">
         {comments.length === 0 ? (
-          <p className="text-sm text-gray-400">No comments yet. Be the first to comment.</p>
+          <p className="text-sm text-gray-400">
+            No comments yet. Be the first to comment.
+          </p>
         ) : (
           comments.map((c) => <CommentItem key={c.id} comment={c} />)
         )}
@@ -69,10 +80,10 @@ export default function CommentThread({ taskId, initialComments, currentUserId, 
             disabled={loading || !body.trim()}
             className="mt-2 bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
-            {loading ? 'Posting...' : 'Comment'}
+            {loading ? "Posting..." : "Comment"}
           </button>
         </div>
       </form>
     </div>
-  )
+  );
 }

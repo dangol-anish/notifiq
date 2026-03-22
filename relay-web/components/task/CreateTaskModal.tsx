@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Member {
   id: string;
@@ -53,11 +54,12 @@ export default function CreateTaskModal({
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.error || "Something went wrong");
+      toast.error(data.error || "Something went wrong");
       setLoading(false);
       return;
     }
 
+    toast.success("Task created!");
     setIsOpen(false);
     setTitle("");
     setDescription("");

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Props {
   slug: string;
@@ -18,15 +19,14 @@ export default function DeleteWorkspaceButton({ slug, workspaceName }: Props) {
     if (confirm !== workspaceName) return;
     setLoading(true);
 
-    const res = await fetch(`/api/workspaces/${slug}`, {
-      method: "DELETE",
-    });
+    const res = await fetch(`/api/workspaces/${slug}`, { method: "DELETE" });
 
     if (res.ok) {
       router.push("/dashboard");
+    } else {
+      toast.error("Failed to delete workspace");
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   return (

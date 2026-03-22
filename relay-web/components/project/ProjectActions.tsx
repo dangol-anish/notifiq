@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Props {
   project: {
@@ -36,10 +37,12 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
     });
 
     if (res.ok) {
+      toast.success("Project updated!");
       setShowEdit(false);
       router.refresh();
+    } else {
+      toast.error("Failed to update project");
     }
-
     setLoading(false);
   }
 
@@ -51,10 +54,12 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
     });
 
     if (res.ok) {
+      toast.success("Project deleted");
       setShowDelete(false);
       router.refresh();
+    } else {
+      toast.error("Failed to delete project");
     }
-
     setLoading(false);
   }
 

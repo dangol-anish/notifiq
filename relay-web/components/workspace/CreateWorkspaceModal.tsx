@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function CreateWorkspaceModal() {
   const router = useRouter();
@@ -24,11 +25,12 @@ export default function CreateWorkspaceModal() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.error || "Something went wrong");
+      toast.error(data.error || "Something went wrong");
       setLoading(false);
       return;
     }
 
+    toast.success("Workspace created!");
     setIsOpen(false);
     setName("");
     setLoading(false);

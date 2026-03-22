@@ -1,5 +1,7 @@
 "use client";
 
+import toast from "react-hot-toast";
+
 interface Attachment {
   id: string;
   file_name: string;
@@ -67,12 +69,17 @@ export default function AttachmentList({
 
           <button
             onClick={async () => {
-              await fetch(`/api/tasks/${taskId}/attachments`, {
+              const res = await fetch(`/api/tasks/${taskId}/attachments`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ attachmentId: a.id }),
               });
-              onDelete(a.id);
+              if (res.ok) {
+                toast.success("Attachment deleted");
+                onDelete(a.id);
+              } else {
+                toast.error("Failed to delete attachment");
+              }
             }}
             className="text-gray-400 hover:text-red-500 transition-colors ml-2 shrink-0"
           >

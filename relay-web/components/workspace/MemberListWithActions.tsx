@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Member {
   id: string;
@@ -38,7 +39,10 @@ export default function MemberListWithActions({
     });
 
     if (res.ok) {
+      toast.success("Member removed");
       router.refresh();
+    } else {
+      toast.error("Failed to remove member");
     }
 
     setRemoving(null);

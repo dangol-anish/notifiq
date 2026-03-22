@@ -16,6 +16,8 @@ import KanbanColumn from "./KanbanColumn";
 import TaskCard from "./TaskCard";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface Props {
   projectId: string;
@@ -32,6 +34,7 @@ const columns = [
 export default function KanbanBoard({ projectId, workspaceSlug }: Props) {
   const { tasks, setTasks } = useTasks();
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+  const router = useRouter();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -74,14 +77,20 @@ export default function KanbanBoard({ projectId, workspaceSlug }: Props) {
     const overColumn = columns.find((c) => c.status === overId);
     if (!overColumn) return;
 
-    const task = tasks.find((t) => t.id === activeId);
-    if (!task || task.status === overColumn.status) return;
-
-    await fetch(`/api/tasks/${activeId}`, {
+    // Use the original status before drag started, not the optimistically updated one
+    const res = await fetch(`/api/tasks/${activeId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: overColumn.status }),
     });
+
+    if (!res.ok) {
+      toast.error("Failed to update task status");
+      // Revert optimistic update by refreshing
+      router.refresh();
+    } else {
+      toast.success("Status updated!");
+    }
   }
 
   return (

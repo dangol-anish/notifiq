@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Props {
   taskId: string;
@@ -46,7 +47,7 @@ export default function TaskActions({
     e.preventDefault();
     setLoading(true);
 
-    await fetch(`/api/tasks/${taskId}`, {
+    const res = await fetch(`/api/tasks/${taskId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -58,6 +59,12 @@ export default function TaskActions({
       }),
     });
 
+    if (res.ok) {
+      toast.success("Task updated!");
+    } else {
+      toast.error("Failed to update task");
+    }
+
     setShowEdit(false);
     setLoading(false);
     router.refresh();
@@ -66,9 +73,15 @@ export default function TaskActions({
   async function handleDelete() {
     setLoading(true);
 
-    await fetch(`/api/tasks/${taskId}`, { method: "DELETE" });
+    const res = await fetch(`/api/tasks/${taskId}`, { method: "DELETE" });
 
-    router.push(`/${workspaceSlug}/projects/${projectId}`);
+    if (res.ok) {
+      toast.success("Task deleted");
+      router.push(`/${workspaceSlug}/projects/${projectId}`);
+    } else {
+      toast.error("Failed to delete task");
+      setLoading(false);
+    }
   }
 
   return (

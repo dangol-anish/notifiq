@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Props {
   slug: string;
@@ -29,11 +30,14 @@ export default function CreateProjectModal({ slug }: Props) {
     const data = await res.json();
 
     if (!res.ok) {
+      toast.error(data.error || "Something went wrong");
+
       setError(data.error || "Something went wrong");
       setLoading(false);
       return;
     }
 
+    toast.success("Project created!");
     setIsOpen(false);
     setName("");
     setDescription("");
