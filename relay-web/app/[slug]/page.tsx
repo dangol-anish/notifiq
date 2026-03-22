@@ -55,7 +55,9 @@ export default async function WorkspacePage({
 
   const canEdit = ["owner", "admin"].includes(workspace.role);
 
-  const activeProjects = projects.filter((p: { status?: string }) => p.status !== "archived");
+  const activeProjects = projects.filter(
+    (p: { status?: string }) => p.status !== "archived",
+  );
   const archivedProjects = projects.filter(
     (p: { status?: string }) => p.status === "archived",
   );
@@ -68,18 +70,17 @@ export default async function WorkspacePage({
             href="/dashboard"
             className="text-sm text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
           >
-            ← Dashboard
+            Dashboard
           </Link>
           <span className="text-gray-300 dark:text-gray-600">/</span>
-          <WorkspaceSwitcher
-            currentSlug={slug}
-            currentName={workspace.name}
-          />
+          <WorkspaceSwitcher currentSlug={slug} currentName={workspace.name} />
         </div>
         <div className="flex items-center gap-4">
           <SearchBar slug={slug} />
           <NotificationBell />
-          <span className="text-sm text-gray-500 dark:text-gray-400">{session.user?.email}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {session.user?.email}
+          </span>
           <LogoutButton />
         </div>
       </nav>

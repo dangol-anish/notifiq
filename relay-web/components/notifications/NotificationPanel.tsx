@@ -23,7 +23,7 @@ export default function NotificationPanel() {
         </h3>
         <button
           onClick={markAllRead}
-          className="text-xs text-blue-500 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+          className="text-xs text-primary transition-colors hover:text-secondary dark:text-blue-400 dark:hover:text-blue-300"
         >
           Mark all read
         </button>

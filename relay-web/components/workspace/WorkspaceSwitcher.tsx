@@ -30,7 +30,8 @@ export default function WorkspaceSwitcher({
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
@@ -38,7 +39,7 @@ export default function WorkspaceSwitcher({
 
   const btnClass =
     variant === "breadcrumb"
-      ? "-mx-1.5 flex max-w-[160px] items-center gap-1 rounded-md px-1.5 py-0.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100 sm:max-w-[220px]"
+      ? "-mx-1.5 flex max-w-[160px] items-center gap-1 rounded-md px-1.5  text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100 sm:max-w-[220px] flex justify-center items-center"
       : "-mx-2 -my-1 flex max-w-[200px] items-center gap-1.5 rounded-md px-2 py-1 text-sm font-semibold text-gray-900 hover:bg-gray-50 dark:text-gray-100 dark:hover:bg-gray-800 sm:max-w-[280px]";
 
   return (
@@ -51,7 +52,7 @@ export default function WorkspaceSwitcher({
         aria-haspopup="listbox"
       >
         <span className="truncate">{currentName}</span>
-        <span className="text-gray-400 shrink-0 text-[10px] leading-none">
+        <span className="text-gray-400 shrink-0 text-[8px] leading-none">
           {open ? "▲" : "▼"}
         </span>
       </button>
