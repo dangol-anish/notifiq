@@ -31,11 +31,18 @@ export default async function WorkspacePage({
   const workspace = rows[0];
 
   const projects = await sql`
-    SELECT * FROM projects
-    WHERE workspace_id = ${workspace.id}
-    ORDER BY created_at DESC
-  `;
-
+  SELECT 
+    p.*,
+    COUNT(t.id) as total_tasks,
+    COUNT(t.id) FILTER (WHERE t.status = 'done') as completed_tasks,
+    COUNT(t.id) FILTER (WHERE t.status = 'in_progress') as in_progress_tasks,
+    COUNT(t.id) FILTER (WHERE t.status = 'todo') as todo_tasks
+  FROM projects p
+  LEFT JOIN tasks t ON t.project_id = p.id
+  WHERE p.workspace_id = ${workspace.id}
+  GROUP BY p.id
+  ORDER BY p.created_at DESC
+`;
   const members = await sql`
     SELECT u.id, u.name, u.email, u.image, wm.role
     FROM workspace_members wm
