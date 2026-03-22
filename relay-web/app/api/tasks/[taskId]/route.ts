@@ -5,6 +5,13 @@ import { publishTaskUpdated, publishTaskDeleted } from "@/lib/redis";
 import { logActivity } from "@/lib/activity";
 import { assertProjectNotArchivedByTaskId } from "@/lib/project-archive";
 
+function dueDateKey(d: unknown): string | null {
+  if (d == null) return null;
+  const t = new Date(d as string);
+  if (Number.isNaN(t.getTime())) return null;
+  return t.toISOString().slice(0, 10);
+}
+
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ taskId: string }> },
@@ -15,8 +22,15 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { taskId } = await params;
-    const { status, priority, assigneeId, title, description, dueDate } =
-      await req.json();
+    const body = await req.json();
+    const { status, priority, assigneeId, title, description, dueDate } = body;
+    const dueDateInBody = Object.prototype.hasOwnProperty.call(body, "dueDate");
+
+    const existingDue = await sql`
+      SELECT due_date FROM tasks WHERE id = ${taskId}
+    `;
+    if (!existingDue.length)
+      return NextResponse.json({ error: "Task not found" }, { status: 404 });
 
     const archiveCheck = await assertProjectNotArchivedByTaskId(taskId);
     if (!archiveCheck.ok) {
@@ -39,8 +53,15 @@ export async function PATCH(
       RETURNING *
     `;
 
-    if (!rows.length)
-      return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    if (dueDateInBody) {
+      const prev = dueDateKey(existingDue[0].due_date);
+      const next = dueDateKey(dueDate);
+      if (prev !== next) {
+        await sql`
+          UPDATE tasks SET due_reminder_sent_at = NULL WHERE id = ${taskId}
+        `;
+      }
+    }
 
     // Get workspace_id for publishing
     const taskFull = await sql`
