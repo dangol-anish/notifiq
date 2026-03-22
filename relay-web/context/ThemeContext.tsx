@@ -5,8 +5,12 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useState,
 } from "react";
+
+const useIsomorphicLayoutEffect =
+  typeof document !== "undefined" ? useLayoutEffect : useEffect;
 
 export type Theme = "light" | "dark";
 
@@ -17,18 +21,22 @@ const ThemeContext = createContext<{
   mounted: boolean;
 } | null>(null);
 
-const STORAGE_KEY = "notifiq-theme";
+import { THEME_STORAGE_KEY } from "@/lib/theme-storage";
+
+const STORAGE_KEY = THEME_STORAGE_KEY;
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setMounted(true);
     const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
     if (stored === "dark" || stored === "light") {
       setThemeState(stored);
-      document.documentElement.classList.toggle("dark", stored === "dark");
+      const isDark = stored === "dark";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.style.colorScheme = isDark ? "dark" : "light";
       return;
     }
     const prefersDark = window.matchMedia(
@@ -37,6 +45,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const initial = prefersDark ? "dark" : "light";
     setThemeState(initial);
     document.documentElement.classList.toggle("dark", prefersDark);
+    document.documentElement.style.colorScheme = prefersDark ? "dark" : "light";
   }, []);
 
   const setTheme = useCallback((t: Theme) => {
@@ -49,7 +58,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setThemeState((prev) => {
       const next = prev === "dark" ? "light" : "dark";
       localStorage.setItem(STORAGE_KEY, next);
-      document.documentElement.classList.toggle("dark", next === "dark");
+      const isDark = next === "dark";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.style.colorScheme = isDark ? "dark" : "light";
       return next;
     });
   }, []);
