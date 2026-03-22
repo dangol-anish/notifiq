@@ -1,11 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
 import NotificationItem from "./NotificationItem";
+
+const PAGE_SIZE = 10;
 
 export default function NotificationPanel() {
   const { notifications, isLoading, markRead, markAllRead } =
     useNotifications();
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  const visible = notifications.slice(0, visibleCount);
+  const hasMore = notifications.length > visibleCount;
 
   return (
     <div className="absolute right-0 top-10 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden">
@@ -47,13 +54,24 @@ export default function NotificationPanel() {
             <p className="text-xs text-gray-400 mt-1">No notifications yet.</p>
           </div>
         ) : (
-          notifications.map((n) => (
-            <NotificationItem
-              key={n.id}
-              notification={n}
-              onMarkRead={markRead}
-            />
-          ))
+          <>
+            {visible.map((n) => (
+              <NotificationItem
+                key={n.id}
+                notification={n}
+                onMarkRead={markRead}
+              />
+            ))}
+            {hasMore && (
+              <button
+                onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+                className="w-full px-4 py-3 text-xs text-blue-500 hover:text-blue-700 hover:bg-gray-50 transition-colors text-center"
+              >
+                Load {Math.min(PAGE_SIZE, notifications.length - visibleCount)}{" "}
+                more
+              </button>
+            )}
+          </>
         )}
       </div>
 
@@ -61,7 +79,7 @@ export default function NotificationPanel() {
       {notifications.length > 0 && (
         <div className="px-4 py-2 border-t border-gray-100 text-center">
           <span className="text-xs text-gray-400">
-            {notifications.length} notification
+            {visible.length} of {notifications.length} notification
             {notifications.length !== 1 ? "s" : ""}
           </span>
         </div>
