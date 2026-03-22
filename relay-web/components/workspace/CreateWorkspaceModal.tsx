@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { FiPlus } from "react-icons/fi";
 
 export default function CreateWorkspaceModal() {
   const router = useRouter();
@@ -41,28 +42,29 @@ export default function CreateWorkspaceModal() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+        className="bg-primary text-white px-4 py-2  text-sm font-medium hover:bg-secondary cursor-pointer transition-colors flex justify-center items-center gap-3 tracking-wider"
       >
-        New Workspace
+        <FiPlus size={20} />
+        <p>New Workspace</p>
       </button>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <div className="w-full max-w-md  bg-white p-6 shadow-xl dark:bg-gray-900">
+            <h2 className="mb-4 text-2xl font-semibold text-primary font-serif dark:text-gray-100">
               Create Workspace
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
                   Workspace name
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
+                  className="w-full  border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
                   placeholder="My Team"
                   required
                   autoFocus
@@ -75,7 +77,7 @@ export default function CreateWorkspaceModal() {
                 </p>
               )}
 
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
@@ -86,7 +88,7 @@ export default function CreateWorkspaceModal() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="bg-primary text-white px-4 py-2  text-sm font-medium hover:bg-secondary transition-colors disabled:opacity-50"
                 >
                   {loading ? "Creating..." : "Create"}
                 </button>

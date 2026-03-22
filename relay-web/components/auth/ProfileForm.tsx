@@ -52,7 +52,7 @@ export default function ProfileForm({ currentName }: Props) {
       <button
         type="submit"
         disabled={loading || name === currentName}
-        className="bg-[#2d4a3e] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#2d4a3e]/80 cursor-pointer transition-colors disabled:opacity-50"
+        className="bg-[#2d4a3e] text-white px-4 py-2  text-sm font-medium hover:bg-[#2d4a3e]/80 cursor-pointer transition-colors disabled:opacity-50"
       >
         {loading ? "Saving..." : "Save changes"}
       </button>

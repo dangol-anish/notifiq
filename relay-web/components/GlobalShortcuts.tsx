@@ -74,13 +74,16 @@ export default function GlobalShortcuts() {
 
   return (
     <>
-      <KeyboardShortcutsModal open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <KeyboardShortcutsModal
+        open={helpOpen}
+        onClose={() => setHelpOpen(false)}
+      />
       <div className="fixed bottom-28 right-4 z-[100] flex items-center gap-2">
         <ThemeToggle />
         <button
           type="button"
           onClick={() => setHelpOpen(true)}
-          className="rounded-lg border border-gray-200 bg-white p-2 text-sm font-medium text-gray-600 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+          className=" border border-gray-200 bg-white p-2 px-3 text-sm font-bold text-gray-600 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
           title="Keyboard shortcuts (?)"
           aria-label="Keyboard shortcuts"
         >

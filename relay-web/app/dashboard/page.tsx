@@ -38,14 +38,18 @@ export default async function DashboardPage() {
         </div>
       </nav>
 
-      <div className="max-w-4xl mx-auto mt-12 px-6">
+      <div className="max-w-6xl mx-auto mt-12 px-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <h1 className="text-3xl font-serif font-bold text-primary dark:text-gray-100">
               Workspaces
             </h1>
-            <p className="mt-1 text-gray-500 dark:text-gray-400">
-              Welcome back, {session.user?.name || session.user?.email}
+            <p className="mt-1 text-primary-container/70 text-sm dark:text-gray-400 flex">
+              Welcome back,{" "}
+              <p className="font-semibold ml-0.5">
+                {session.user?.name || session.user?.email}
+              </p>
+              !
             </p>
           </div>
           <CreateWorkspaceModal />
@@ -68,10 +72,10 @@ export default async function DashboardPage() {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold text-gray-900 mb-1">
+            <h3 className="font-semibold text-primary mb-1">
               No workspaces yet
             </h3>
-            <p className="text-gray-400 text-sm mb-4">
+            <p className="text-secondary text-sm mb-4">
               Create a workspace to start collaborating with your team.
             </p>
             <CreateWorkspaceModal />
