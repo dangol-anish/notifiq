@@ -10,7 +10,7 @@ import {
 import { useSession } from "next-auth/react";
 import { io, Socket } from "socket.io-client";
 
-export interface Task {
+interface Task {
   id: string;
   title: string;
   status: string;
@@ -23,6 +23,7 @@ export interface Task {
   created_at: string;
   labels?: { id: string; name: string; color: string }[];
 }
+
 interface TaskContextType {
   tasks: Task[];
   setTasks: (tasks: Task[]) => void;
