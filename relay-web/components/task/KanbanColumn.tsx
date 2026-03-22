@@ -50,7 +50,7 @@ export default function KanbanColumn({
         ))}
         {tasks.length === 0 && !isOver && (
           <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-400">No tasks</p>
+            <p className="text-xs text-gray-400">Drop tasks here</p>
           </div>
         )}
       </div>

@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
-import { useNotifications } from '@/hooks/useNotifications'
-import NotificationItem from './NotificationItem'
+import { useNotifications } from "@/hooks/useNotifications";
+import NotificationItem from "./NotificationItem";
 
 export default function NotificationPanel() {
-  const { notifications, isLoading, markRead, markAllRead } = useNotifications()
+  const { notifications, isLoading, markRead, markAllRead } =
+    useNotifications();
 
   return (
     <div className="absolute right-0 top-10 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden">
@@ -26,8 +27,24 @@ export default function NotificationPanel() {
             Loading...
           </div>
         ) : notifications.length === 0 ? (
-          <div className="px-4 py-8 text-center text-sm text-gray-400">
-            No notifications yet
+          <div className="px-4 py-8 text-center">
+            <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg
+                className="w-5 h-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+            </div>
+            <p className="text-sm text-gray-500 font-medium">All caught up!</p>
+            <p className="text-xs text-gray-400 mt-1">No notifications yet.</p>
           </div>
         ) : (
           notifications.map((n) => (
@@ -44,10 +61,11 @@ export default function NotificationPanel() {
       {notifications.length > 0 && (
         <div className="px-4 py-2 border-t border-gray-100 text-center">
           <span className="text-xs text-gray-400">
-            {notifications.length} notification{notifications.length !== 1 ? 's' : ''}
+            {notifications.length} notification
+            {notifications.length !== 1 ? "s" : ""}
           </span>
         </div>
       )}
     </div>
-  )
+  );
 }

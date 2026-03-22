@@ -90,10 +90,28 @@ export default async function WorkspacePage({
           <div className="lg:col-span-2">
             {projects.length === 0 ? (
               <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-                <p className="text-gray-500">No projects yet.</p>
-                <p className="text-gray-400 text-sm mt-1">
-                  Create a project to start managing tasks.
+                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <svg
+                    className="w-6 h-6 text-blue-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"
+                    />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  No projects yet
+                </h3>
+                <p className="text-gray-400 text-sm mb-4">
+                  Create a project to start managing tasks with your team.
                 </p>
+                {canEdit && <CreateProjectModal slug={slug} />}
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

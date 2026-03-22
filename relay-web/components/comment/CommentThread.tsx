@@ -55,9 +55,12 @@ export default function CommentThread({
 
       <div className="space-y-4 mb-6">
         {comments.length === 0 ? (
-          <p className="text-sm text-gray-400">
-            No comments yet. Be the first to comment.
-          </p>
+          <div className="text-center py-4">
+            <p className="text-sm text-gray-400">No comments yet.</p>
+            <p className="text-xs text-gray-300 mt-1">
+              Start the conversation below.
+            </p>
+          </div>
         ) : (
           comments.map((c) => <CommentItem key={c.id} comment={c} />)
         )}
