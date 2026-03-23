@@ -30,10 +30,10 @@ export default function FeaturesSection() {
             ))}
           </ul>
         </div>
-        <div className="bg-surface-container p-8 rounded-sm">
+        <div className="bg-surface-container p-4 rounded-sm">
           <div className="aspect-video bg-surface-container-lowest rounded-sm shadow-sm border border-outline-variant/10 overflow-hidden">
             <Image
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXMVZtJZwjH3TjBP8w1AmO6nNbaYD6hZAR_9IBKFTQ9f__6fMxq6t4fbwqWzxCvcBFYnKheh4Gkagx3qdbiJ9Qf1OnX4gHnBcGWe7EATxn3gD7lguBvNVwFRD3mZ8gwRyNcFBRVYcnARcqrA4V0SiDBfabDx417I7vNarZZS52t_exP1kaOBQ5J6ZpzV4IdfbyfHa7pw8kINESNXvzRrPbpZwCTa5EIh_exGsTDzC9_Df4F7o882cdFmUPRFhGTCxm86nDCGYRN4s"
+              src="/2.png"
               alt="Clean software dashboard"
               width={800}
               height={450}
@@ -45,7 +45,7 @@ export default function FeaturesSection() {
 
       {/* Feature 2 (reversed) */}
       <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-        <div className="order-2 md:order-1 bg-surface-container-high p-8 rounded-sm">
+        <div className="order-2 md:order-1 bg-surface-container-high p-4 rounded-sm">
           <div className="aspect-video bg-surface-container-lowest rounded-sm shadow-sm border border-outline-variant/10 overflow-hidden">
             <Image
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsbodYT8bP4OLDgc6HkRdfWqoQHN44iNS0Bwxid9gLQFunfwpRmR601LXIDhGLMXubVz1X6S_w197reiwVAty9vxlxQhfR0Ob12bq9l1cihg76avJ9AouWv1-hbAeuVG89hZgAFfF3F026PubkdKwQDNnbBBgvmSt9wyim2OD5mQcjaxZ3OmHInigd9XkfmvGjgPKWxPWWJU1gpD5gBdwOl57LN1Keyn73PVdJrhOEDONB_oQY2cTa2QrFCT3x4CH_qZCdye8FPtA"
