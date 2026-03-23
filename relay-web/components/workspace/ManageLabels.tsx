@@ -21,7 +21,6 @@ const PRESET_COLORS = [
   "#ef4444",
   "#8b5cf6",
   "#ec4899",
-  "#14b8a6",
 ];
 
 export default function ManageLabels({ slug }: Props) {
@@ -67,15 +66,15 @@ export default function ManageLabels({ slug }: Props) {
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
+    <div className=" border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className=" font-serif mb-4 text-lg font-bold font-semibold text- dark:text-gray-100">
         Labels
       </h2>
 
       {/* Existing labels */}
       <div className="flex flex-wrap gap-2 mb-4">
         {labels.length === 0 ? (
-          <p className="text-sm text-gray-400 dark:text-gray-500">
+          <p className="mb-1 block text-sm font-medium tracking-widest text-on-tertiary-fixed-variant">
             No labels yet.
           </p>
         ) : (
@@ -92,22 +91,22 @@ export default function ManageLabels({ slug }: Props) {
 
       {/* Create label form */}
       <form onSubmit={handleCreate} className="flex items-end gap-3">
-        <div className="flex-1">
-          <label className="mb-1 block text-xs font-medium text-gray-700 dark:text-gray-300">
+        <div className="flex-1 items-center justify-center">
+          <label className="mb-1 block text-sm font-medium tracking-widest text-on-tertiary-fixed-variant">
             Label name
           </label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+            className="w-full  border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
             placeholder="e.g. Bug, Feature, Urgent"
             required
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-700 dark:text-gray-300">
+          <label className="mb-1 block text-sm font-medium tracking-widest text-on-tertiary-fixed-variant">
             Color
           </label>
           <div className="flex gap-1.5">
@@ -130,7 +129,7 @@ export default function ManageLabels({ slug }: Props) {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+          className=" bg-primary text-white  px-4 py-2 cursor-pointer text-sm font-medium hover:bg-secondary transition-colors disabled:opacity-50"
         >
           {loading ? "Adding..." : "Add"}
         </button>

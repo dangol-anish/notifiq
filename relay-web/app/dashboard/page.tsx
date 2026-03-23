@@ -81,7 +81,7 @@ export default async function DashboardPage() {
             <CreateWorkspaceModal />
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-5">
             {workspaces.map((w: any) => (
               <WorkspaceCard key={w.id} workspace={w} />
             ))}

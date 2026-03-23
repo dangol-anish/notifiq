@@ -47,7 +47,10 @@ export default async function WorkspaceSettingsPage({
     <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <nav className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 dark:border-gray-800 dark:bg-gray-900">
         <div className="flex items-center gap-3 text-sm">
-          <Link href="/dashboard" className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+          <Link
+            href="/dashboard"
+            className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+          >
             Dashboard
           </Link>
           <span className="text-gray-300 dark:text-gray-600">/</span>
@@ -57,7 +60,9 @@ export default async function WorkspaceSettingsPage({
             variant="breadcrumb"
           />
           <span className="text-gray-300 dark:text-gray-600">/</span>
-          <span className="font-semibold text-gray-900 dark:text-gray-100">Settings</span>
+          <span className="font-semibold text-gray-900 dark:text-gray-100">
+            Settings
+          </span>
         </div>
         <div className="flex items-center gap-4">
           <NotificationBell />
@@ -75,9 +80,9 @@ export default async function WorkspaceSettingsPage({
         />
 
         {/* Members */}
-        <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+        <div className=" border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+            <h2 className="mb-4 text-lg font-semibold text-primary font-serif dark:text-gray-100">
               Members ({members.length})
             </h2>
             {(isOwner || isAdmin) && <InviteMemberModal slug={slug} />}
@@ -95,8 +100,8 @@ export default async function WorkspaceSettingsPage({
 
         {/* Danger zone */}
         {isOwner && (
-          <div className="rounded-xl border border-red-200 bg-white p-6 dark:border-red-900/60 dark:bg-red-950/20">
-            <h2 className="mb-2 text-sm font-semibold text-red-600 dark:text-red-400">
+          <div className=" border border-red-200 bg-white p-6 dark:border-red-900/60 dark:bg-red-950/20">
+            <h2 className="mb-2 font-semibold text-red-600 dark:text-red-400 font-serif text-lg">
               Danger zone
             </h2>
             <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">

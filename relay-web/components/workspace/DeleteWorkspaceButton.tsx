@@ -34,7 +34,7 @@ export default function DeleteWorkspaceButton({ slug, workspaceName }: Props) {
       {!showConfirm ? (
         <button
           onClick={() => setShowConfirm(true)}
-          className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+          className="bg-red-600 text-white px-4 py-2 cursor-pointer text-sm font-medium hover:bg-red-700 transition-colors"
         >
           Delete workspace
         </button>

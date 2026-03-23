@@ -52,13 +52,13 @@ export default function WorkspaceSettingsForm({
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
+    <div className=" border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className=" font-serif mb-4 text-lg font-bold font-semibold text- dark:text-gray-100">
         Workspace
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="mb-1 block text-sm font-medium tracking-widest text-on-tertiary-fixed-variant">
             Workspace name
           </label>
           <input
@@ -66,7 +66,7 @@ export default function WorkspaceSettingsForm({
             value={name}
             onChange={(e) => setName(e.target.value)}
             disabled={!canRename}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-400 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 disabled:dark:bg-gray-800/50"
+            className="w-full  border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70 disabled:bg-gray-50 disabled:text-gray-400 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 disabled:dark:bg-gray-800/50"
           />
           {!canRename && (
             <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
@@ -86,7 +86,7 @@ export default function WorkspaceSettingsForm({
           <button
             type="submit"
             disabled={loading || name === currentName}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className=" bg-primary text-white  px-4 py-2 cursor-pointer text-sm font-medium hover:bg-secondary transition-colors disabled:opacity-50"
           >
             {loading ? "Saving..." : "Save changes"}
           </button>

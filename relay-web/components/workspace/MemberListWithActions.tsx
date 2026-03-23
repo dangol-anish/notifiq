@@ -54,21 +54,23 @@ export default function MemberListWithActions({
       {members.map((m) => (
         <div key={m.id} className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">
+            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-medium">
               {(m.name || m.email).charAt(0).toUpperCase()}
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">
+              <p className="mb-1 block text-sm font-medium tracking-widest text-on-tertiary-fixed-variant">
                 {m.name || m.email}
               </p>
-              <p className="text-xs text-gray-400">{m.email}</p>
+              <p className="text-xs text-secondary tracking-widest">
+                {m.email}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span
-              className={`text-xs px-2 py-1 rounded-full ${
+              className={`text-xs px-2 py-1  ${
                 m.role === "owner"
-                  ? "bg-purple-100 text-purple-700"
+                  ? "bg-primary/80 text-white"
                   : m.role === "admin"
                     ? "bg-blue-100 text-blue-700"
                     : "bg-gray-100 text-gray-600"

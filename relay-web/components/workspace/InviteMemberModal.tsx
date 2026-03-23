@@ -68,7 +68,7 @@ export default function InviteMemberModal({ slug }: Props) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+        className="bg-primary cursor-pointer text-white px-4 py-2  text-sm font-medium hover:bg-secondary transition-colors disabled:opacity-50"
       >
         Invite Member
       </button>
@@ -135,8 +135,8 @@ export default function InviteMemberModal({ slug }: Props) {
                           <span className="mb-3 block space-y-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-xs text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
                             <p className="font-medium text-amber-950 dark:text-amber-100">
                               Resend’s test sender only delivers to your own
-                              inbox. To email <strong>{email}</strong> (or anyone
-                              else), verify a domain and set{" "}
+                              inbox. To email <strong>{email}</strong> (or
+                              anyone else), verify a domain and set{" "}
                               <code className="rounded bg-amber-100/80 px-1 font-mono dark:bg-amber-900/50">
                                 RESEND_FROM
                               </code>
@@ -178,8 +178,8 @@ export default function InviteMemberModal({ slug }: Props) {
                           </span>
                         ) : (
                           <span className="mb-3 block rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
-                            Email could not be sent: {emailError}. Share the link
-                            below manually.
+                            Email could not be sent: {emailError}. Share the
+                            link below manually.
                           </span>
                         )}
                         Share this link with <strong>{email}</strong>:
