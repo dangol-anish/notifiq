@@ -7,10 +7,16 @@ interface Props {
   workspaceSlug: string;
 }
 
-function SparkleIcon({ className }: { className?: string }) {
+function SparkleIcon({
+  className,
+  loading,
+}: {
+  className?: string;
+  loading?: boolean;
+}) {
   return (
     <svg
-      className={className}
+      className={`${className} ${loading ? "animate-spin" : ""}`}
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -63,25 +69,42 @@ export default function AIWeeklyDigest({ workspaceSlug }: Props) {
         disabled={loading}
         className="cursor-pointer inline-flex items-center gap-2 rounded-lg  px-2 py-2 text-sm font-medium text-indigo-800 transition-colors hover:bg-indigo-100 disabled:opacity-50 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-200 dark:hover:bg-indigo-950/70"
       >
-        <SparkleIcon className="h-4 w-4 shrink-0" />
+        <SparkleIcon className="h-4 w-4 shrink-0" loading={loading} />
       </button>
       {digest && (
-        <div className="mt-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-          <div className="mb-2 flex items-center justify-between gap-2">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-2xl rounded-xl border border-gray-200 bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-900">
+            <div className="mb-4 flex items-center justify-between gap-2">
+              <h2 className="text-lg font-semibold text-primary font-serif dark:text-gray-100">
+                Weekly Digest
+              </h2>
+              <button
+                type="button"
+                onClick={() => setDigest(null)}
+                className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
               Last 7 days
-            </h3>
-            <button
-              type="button"
-              onClick={() => setDigest(null)}
-              className="text-xs text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
-            >
-              Dismiss
-            </button>
+            </label>
+            <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300 tracking-wider">
+              {digest}
+            </p>
           </div>
-          <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-            {digest}
-          </p>
         </div>
       )}
     </div>
