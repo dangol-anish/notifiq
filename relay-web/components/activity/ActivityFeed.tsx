@@ -22,8 +22,8 @@ export default function ActivityFeed({ slug }: Props) {
   }, [slug]);
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
+    <div className=" border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className="mb-4 text-lg font-semibold text-primary font-serif dark:text-gray-100">
         Activity
       </h2>
       {loading ? (
@@ -33,8 +33,8 @@ export default function ActivityFeed({ slug }: Props) {
           No activity yet.
         </p>
       ) : (
-        <div className="space-y-4">
-          {events.map((e) => (
+        <div className="space-y-4 max-h-96 overflow-y-auto">
+          {events.slice(0, 15).map((e) => (
             <ActivityItem key={e.id} event={e} />
           ))}
         </div>

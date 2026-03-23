@@ -56,15 +56,14 @@ export default function AIWeeklyDigest({ workspaceSlug }: Props) {
   }
 
   return (
-    <div className="w-full max-w-xl">
+    <div className="">
       <button
         type="button"
         onClick={fetchDigest}
         disabled={loading}
-        className="inline-flex items-center gap-2 rounded-lg border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-800 transition-colors hover:bg-indigo-100 disabled:opacity-50 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-200 dark:hover:bg-indigo-950/70"
+        className="cursor-pointer inline-flex items-center gap-2 rounded-lg  px-2 py-2 text-sm font-medium text-indigo-800 transition-colors hover:bg-indigo-100 disabled:opacity-50 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-200 dark:hover:bg-indigo-950/70"
       >
         <SparkleIcon className="h-4 w-4 shrink-0" />
-        {loading ? "Generating…" : "Weekly Digest"}
       </button>
       {digest && (
         <div className="mt-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-900">

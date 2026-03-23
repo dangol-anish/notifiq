@@ -148,7 +148,7 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
           onClick={() => setShowEdit(false)}
         >
           <div
-            className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl"
+            className="bg-white  p-6 w-full max-w-md shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="mb-2 text-lg font-semibold text-primary font-serif dark:text-gray-100">
@@ -206,7 +206,7 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
           onClick={() => setShowDelete(false)}
         >
           <div
-            className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl"
+            className="bg-white  p-6 w-full max-w-sm shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="mb-2 text-lg font-semibold text-primary font-serif dark:text-gray-100">

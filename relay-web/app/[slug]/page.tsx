@@ -11,6 +11,7 @@ import ProjectCard from "@/components/project/ProjectCard";
 import SearchBar from "@/components/workspace/SearchBar";
 import WorkspaceSwitcher from "@/components/workspace/WorkspaceSwitcher";
 import AIWeeklyDigest from "@/components/workspace/AIWeeklyDigest";
+import { CiSettings } from "react-icons/ci";
 
 export default async function WorkspacePage({
   params,
@@ -88,23 +89,23 @@ export default async function WorkspacePage({
       <div className="max-w-6xl mx-auto mt-12 px-6">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <h2 className="mb-2 text-2xl font-semibold text-primary font-serif dark:text-gray-100">
               {workspace.name}
-            </h1>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            </h2>
+            <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
               {members.length} member{members.length !== 1 ? "s" : ""}
-            </p>
+            </label>
           </div>
-          <div className="flex flex-col items-stretch gap-3 sm:items-end">
-            <div className="flex flex-wrap items-center gap-3">
-              <AIWeeklyDigest workspaceSlug={slug} />
+          <div className="flex flex-col justify-end items-stretch gap-3 sm:items-end ">
+            <div className="flex  items-center   gap-2">
+              {canEdit && <CreateProjectModal slug={slug} />}
               <Link
                 href={`/${slug}/settings`}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
+                className="px-2 hover:bg-gray-200 cursor-pointer rounded-lg  py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
               >
-                Settings
+                <CiSettings size={20} />
               </Link>
-              {canEdit && <CreateProjectModal slug={slug} />}
+              <AIWeeklyDigest workspaceSlug={slug} />
             </div>
           </div>
         </div>
@@ -112,7 +113,7 @@ export default async function WorkspacePage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             {activeProjects.length === 0 && archivedProjects.length === 0 ? (
-              <div className="rounded-xl border border-gray-200 bg-white p-12 text-center dark:border-gray-800 dark:bg-gray-900">
+              <div className=" border border-gray-200 bg-white p-12 text-center dark:border-gray-800 dark:bg-gray-900">
                 <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <svg
                     className="w-6 h-6 text-blue-500"

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import ThemeToggle from "@/components/ThemeToggle";
+// import ThemeToggle from "@/components/ThemeToggle";
 import KeyboardShortcutsModal from "@/components/KeyboardShortcutsModal";
 
 export default function GlobalShortcuts() {
@@ -79,7 +79,7 @@ export default function GlobalShortcuts() {
         onClose={() => setHelpOpen(false)}
       />
       <div className="fixed bottom-28 right-4 z-[100] flex items-center gap-2">
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         <button
           type="button"
           onClick={() => setHelpOpen(true)}

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import ProjectActions from "./ProjectActions";
+import { truncateWords } from "@/lib/truncate";
 
 interface Props {
   project: any;
@@ -23,35 +24,37 @@ export default function ProjectCard({ project, slug, canEdit }: Props) {
   return (
     <div
       onClick={() => router.push(`/${slug}/projects/${project.id}`)}
-      className={`relative cursor-pointer rounded-xl border bg-white p-6 transition-all dark:bg-gray-900 ${
+      className={`relative cursor-pointer border bg-white p-6 transition-all dark:bg-gray-900 ${
         archived
           ? "border-dashed border-gray-200 opacity-95 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600"
-          : "border-gray-200 hover:border-blue-300 hover:shadow-sm dark:border-gray-800 dark:hover:border-blue-500"
+          : "border-gray-200 hover:border-secondary hover:shadow-sm dark:border-gray-800 dark:hover:border-blue-500"
       }`}
     >
       <div className="flex items-start justify-between">
-        <h3 className="font-semibold text-gray-900 dark:text-gray-100">{project.name}</h3>
+        <h3 className=" text-md font-semibold text-primary font-serif dark:text-gray-100">
+          {truncateWords(project.name, 30)}
+        </h3>
         <div onClick={(e) => e.stopPropagation()}>
           <ProjectActions project={project} slug={slug} canEdit={canEdit} />
         </div>
       </div>
 
       {project.description && (
-        <p className="text-sm text-gray-500 mt-1 line-clamp-2">
-          {project.description}
+        <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+          {truncateWords(project.description, 30)}
         </p>
       )}
 
       {/* Task counts */}
-      {total > 0 && (
+      {/* {total > 0 && (
         <div className="flex items-center gap-3 mt-3">
           <span className="text-xs text-gray-400">{todo} to do</span>
-          <span className="text-xs text-blue-500">
+          <span className="text-xs text-grey-500">
             {inProgress} in progress
           </span>
           <span className="text-xs text-green-500">{completed} done</span>
         </div>
-      )}
+      )} */}
 
       {/* Progress bar */}
       {total > 0 && (
@@ -75,7 +78,7 @@ export default function ProjectCard({ project, slug, canEdit }: Props) {
 
       <div className="flex items-center justify-between mt-3">
         <span
-          className={`text-xs px-2 py-1 rounded-full ${
+          className={`text-xs mt-2 px-2 first-letter:uppercase py-1 rounded-sm ${
             archived
               ? "bg-gray-200 text-gray-600"
               : project.status === "active" || !project.status

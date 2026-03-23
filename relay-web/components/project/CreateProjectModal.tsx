@@ -49,7 +49,7 @@ export default function CreateProjectModal({ slug }: Props) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+        className="bg-primary text-white px-4 py-2 text-sm cursor-pointer font-medium hover:bg-primary/70 transition-colors"
       >
         New Project
       </button>
