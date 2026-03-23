@@ -51,7 +51,7 @@ export default function AITaskGenerator({ projectId, workspaceSlug }: Props) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-lg border border-violet-200 bg-violet-50 px-4 py-2 text-sm font-medium text-violet-800 transition-colors hover:bg-violet-100 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-200 dark:hover:bg-violet-950"
+        className=" border border-violet-200 bg-violet-50 px-4 py-2 text-sm font-medium text-violet-800 transition-colors hover:bg-violet-100 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-200 dark:hover:bg-violet-950"
       >
         AI generate tasks
       </button>
@@ -70,21 +70,21 @@ export default function AITaskGenerator({ projectId, workspaceSlug }: Props) {
             className="mx-4 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="mb-1 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <h2 className="mb-1 text-lg font-semibold text-primary font-serif dark:text-gray-100">
               Generate tasks with AI
             </h2>
-            <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
+            <p className=" block text-xs  tracking-widest text-[#604021] mb-3">
               Describe what you want to accomplish. We&apos;ll suggest 5–10
               actionable tasks with priorities and due dates.
             </p>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-2">
               <textarea
                 value={goal}
                 onChange={(e) => setGoal(e.target.value)}
                 placeholder="e.g. Ship the billing integration with Stripe, emails, and admin refunds…"
                 rows={5}
                 disabled={loading}
-                className="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-60 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
+                className="w-full resize-none  border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-60 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
                 autoFocus
               />
               <div className="flex justify-end gap-3">
@@ -103,7 +103,7 @@ export default function AITaskGenerator({ projectId, workspaceSlug }: Props) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-700 disabled:opacity-50"
+                  className=" bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-700 disabled:opacity-50"
                 >
                   {loading ? "Generating tasks…" : "Generate"}
                 </button>

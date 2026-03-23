@@ -47,14 +47,14 @@ export default function DeleteWorkspaceButton({ slug, workspaceName }: Props) {
             type="text"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
-            className="w-full px-3 py-2 border border-red-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-red-300  text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
             placeholder={workspaceName}
           />
           <div className="flex gap-2">
             <button
               onClick={handleDelete}
               disabled={confirm !== workspaceName || loading}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
+              className="bg-red-600 text-white px-4 py-2 text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
             >
               {loading ? "Deleting..." : "Confirm delete"}
             </button>
@@ -63,7 +63,7 @@ export default function DeleteWorkspaceButton({ slug, workspaceName }: Props) {
                 setShowConfirm(false);
                 setConfirm("");
               }}
-              className="border border-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+              className=" text-gray-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
             >
               Cancel
             </button>

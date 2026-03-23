@@ -16,7 +16,11 @@ import { useTasks } from "@/context/TaskContext";
 import KanbanColumn from "./KanbanColumn";
 import TaskCard from "./TaskCard";
 import KanbanFilters from "./KanbanFilters";
-import { sortTasksForKanban, type TaskSortBy, type TaskSortDir } from "./sortTasks";
+import {
+  sortTasksForKanban,
+  type TaskSortBy,
+  type TaskSortDir,
+} from "./sortTasks";
 import toast from "react-hot-toast";
 
 interface Props {
@@ -179,7 +183,7 @@ export default function KanbanBoard({
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-6 overflow-y-hidden">
+        <div className="flex gap-4 overflow-x-auto lg:overflow-x-hidden pb-6 overflow-y-hidden">
           {columns.map((col) => (
             <KanbanColumn
               key={col.status}

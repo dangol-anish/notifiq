@@ -151,30 +151,30 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
             className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <h2 className="mb-2 text-lg font-semibold text-primary font-serif dark:text-gray-100">
               Edit Project
             </h2>
             <form onSubmit={handleEdit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-1">
                   Name
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300  text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-1">
                   Description
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full px-3 py-2 border border-gray-300  text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                   rows={3}
                 />
               </div>
@@ -189,7 +189,7 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+                  className="bg-primary text-white px-4 py-2  text-sm font-medium hover:bg-secondary transition-colors disabled:opacity-50"
                 >
                   {loading ? "Saving..." : "Save"}
                 </button>
@@ -209,7 +209,7 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
             className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">
+            <h2 className="mb-2 text-lg font-semibold text-primary font-serif dark:text-gray-100">
               Delete project?
             </h2>
             <p className="text-sm text-gray-500 mb-6">
@@ -219,14 +219,14 @@ export default function ProjectActions({ project, slug, canEdit }: Props) {
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowDelete(false)}
-                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg"
+                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
                 disabled={loading}
-                className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 disabled:opacity-50"
+                className="bg-red-600 text-white px-4 py-2 cursor-pointer text-sm font-medium hover:bg-red-700 disabled:opacity-50"
               >
                 {loading ? "Deleting..." : "Delete"}
               </button>

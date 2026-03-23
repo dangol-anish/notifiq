@@ -13,8 +13,7 @@ interface Props {
 }
 
 const priorityColors: Record<string, string> = {
-  urgent:
-    "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
+  urgent: "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
   high: "bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300",
   medium:
     "bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300",
@@ -47,9 +46,7 @@ export default function TaskCard({
     <div ref={setNodeRef} style={style} {...attributes}>
       <div
         {...(readOnly ? {} : listeners)}
-        className={
-          readOnly ? "" : "cursor-grab active:cursor-grabbing"
-        }
+        className={readOnly ? "" : "cursor-grab active:cursor-grabbing"}
       >
         <Link
           href={`/${workspaceSlug}/projects/${projectId}/tasks/${task.id}`}
@@ -58,22 +55,22 @@ export default function TaskCard({
           }}
         >
           <div
-            className={`rounded-lg border border-gray-200 bg-white p-3 transition-all hover:border-blue-300 hover:shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-500 ${isDragging ? "" : "cursor-pointer"}`}
+            className={` border border-gray-200 bg-white p-3 transition-all hover:ring-[#604021]/70 hover:shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-500 ${isDragging ? "" : "cursor-pointer"}`}
           >
-            <p className="line-clamp-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+            <p className="first-letter:uppercase line-clamp-2 text-sm font-medium text-gray-900 dark:text-gray-100">
               {task.title}
             </p>
 
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               <span
-                className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityColors[task.priority] || priorityColors.medium}`}
+                className={`first-letter:uppercase text-xs px-2 py-0.5 rounded-sm font-medium ${priorityColors[task.priority] || priorityColors.medium}`}
               >
                 {task.priority}
               </span>
 
               {task.due_date && (
                 <span
-                  className={`text-xs ${isOverdue ? "text-red-500" : "text-gray-400"}`}
+                  className={`text-sm ${isOverdue ? "text-red-600" : "text-gray-400"}`}
                 >
                   {isOverdue ? "⚠ " : ""}
                   {new Date(task.due_date).toLocaleDateString()}
@@ -95,7 +92,7 @@ export default function TaskCard({
 
             {task.assignee_name && (
               <div className="flex items-center gap-1.5 mt-2">
-                <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-medium">
+                <div className="w-5 h-5 rounded-full bg-[#604021]/70 flex items-center justify-center text-white text-xs font-medium">
                   {task.assignee_name.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-xs text-gray-500">

@@ -11,6 +11,7 @@ import AITaskGenerator from "@/components/task/AITaskGenerator";
 import ProjectActionsWrapper from "@/components/project/ProjectActionsWrapper";
 import { TaskProvider } from "@/context/TaskContext";
 import WorkspaceSwitcher from "@/components/workspace/WorkspaceSwitcher";
+import { truncateWords } from "@/lib/truncate";
 
 export default async function ProjectPage({
   params,
@@ -89,11 +90,15 @@ export default async function ProjectPage({
               variant="breadcrumb"
             />
             <span className="text-gray-300 dark:text-gray-600">/</span>
-            <span className="font-semibold text-gray-900 dark:text-gray-100">{project.name}</span>
+            <span className="font-semibold text-gray-900 dark:text-gray-100">
+              {project.name}
+            </span>
           </div>
           <div className="flex items-center gap-4">
             <NotificationBell />
-            <span className="text-sm text-gray-500 dark:text-gray-400">{session.user?.email}</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              {session.user?.email}
+            </span>
             <LogoutButton />
           </div>
         </nav>
@@ -108,11 +113,11 @@ export default async function ProjectPage({
           <div className="flex items-center justify-between mb-6 gap-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {project.name}
+                {truncateWords(project.name, 30)}
               </h1>
               {project.description && (
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  {project.description}
+                  {truncateWords(project.description, 50)}
                 </p>
               )}
             </div>
@@ -131,10 +136,7 @@ export default async function ProjectPage({
               )}
               {!projectArchived && (
                 <>
-                  <AITaskGenerator
-                    projectId={projectId}
-                    workspaceSlug={slug}
-                  />
+                  <AITaskGenerator projectId={projectId} workspaceSlug={slug} />
                   <CreateTaskModal
                     projectId={projectId}
                     workspaceSlug={slug}

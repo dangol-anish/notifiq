@@ -30,8 +30,10 @@ export default function KanbanColumn({
   return (
     <div className="flex-1 min-w-[240px] max-w-[320px]">
       <div className="flex items-center gap-2 mb-3">
-        <span className={`w-2 h-2 rounded-full ${color}`} />
-        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">{title}</h3>
+        {/* <span className={`w-2 h-2 rounded-full ${color}`} /> */}
+        <h3 className="mb-1 block text-sm font-medium tracking-widest text-on-tertiary-fixed-variant">
+          {title}
+        </h3>
         <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-full">
           {tasks.length}
         </span>
@@ -55,8 +57,8 @@ export default function KanbanColumn({
           />
         ))}
         {tasks.length === 0 && !isOver && (
-          <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-400">
+          <div className="border-2 border-dashed border-gray-200 p-4 text-center">
+            <p className="text-sm text-gray-400 text-on-tertiary-fixed-variant tracking-widest">
               {readOnly ? "No tasks" : "Drop tasks here"}
             </p>
           </div>

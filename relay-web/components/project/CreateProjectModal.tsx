@@ -56,21 +56,21 @@ export default function CreateProjectModal({ slug }: Props) {
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <div className="w-full max-w-md  bg-white p-6 shadow-xl dark:bg-gray-900">
+            <h2 className=" font-serif mb-4 text-lg  font-semibold text- dark:text-gray-100">
               Create Project
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="mb-1 block text-sm font-medium tracking-widest text-on-tertiary-fixed-variant">
                   Project name
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
+                  className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
                   placeholder="My Project"
                   required
                   autoFocus
@@ -78,7 +78,7 @@ export default function CreateProjectModal({ slug }: Props) {
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="mb-1 block text-sm font-medium tracking-widest text-on-tertiary-fixed-variant">
                   Description{" "}
                   <span className="text-gray-400 dark:text-gray-500">
                     (optional)
@@ -87,7 +87,7 @@ export default function CreateProjectModal({ slug }: Props) {
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
+                  className="w-full resize-none  border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
                   placeholder="What is this project about?"
                   rows={3}
                 />
@@ -110,7 +110,7 @@ export default function CreateProjectModal({ slug }: Props) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="bg-primary text-white px-4 py-2  text-sm font-medium hover:bg-primary/70 cursor-pointer transition-colors disabled:opacity-50"
                 >
                   {loading ? "Creating..." : "Create"}
                 </button>
