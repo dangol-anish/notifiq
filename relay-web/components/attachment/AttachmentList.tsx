@@ -41,7 +41,9 @@ export default function AttachmentList({
 }: Props) {
   if (!attachments.length) {
     return (
-      <p className="text-sm text-gray-400 dark:text-gray-500">No attachments yet.</p>
+      <p className="text-sm text-gray-400 dark:text-gray-500">
+        No attachments yet.
+      </p>
     );
   }
 
@@ -50,7 +52,7 @@ export default function AttachmentList({
       {attachments.map((a) => (
         <div
           key={a.id}
-          className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-800/50"
+          className="flex items-center justify-between  border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-800/50"
         >
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-base">{fileIcon(a.file_type)}</span>
@@ -60,7 +62,7 @@ export default function AttachmentList({
                 href={a.file_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block truncate text-sm text-blue-600 hover:underline dark:text-blue-400"
+                className="block truncate text-sm text-primary hover:underline dark:text-blue-400"
               >
                 {a.file_name}
               </a>

@@ -113,7 +113,7 @@ export default function TaskActions({
               className="fixed inset-0 z-10"
               onClick={() => setShowMenu(false)}
             />
-            <div className="absolute right-0 top-8 z-20 bg-white border border-gray-200 rounded-lg shadow-lg py-1 min-w-[130px]">
+            <div className="absolute right-0 top-8 z-20 bg-white border border-gray-200  shadow-lg py-1 min-w-[130px]">
               <button
                 onClick={() => {
                   setTitle(currentTitle);
@@ -149,45 +149,45 @@ export default function TaskActions({
           onClick={() => setShowEdit(false)}
         >
           <div
-            className="bg-white rounded-xl p-6 w-full max-w-lg shadow-xl"
+            className="bg-white rounded- p-6 w-full max-w-lg shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <h2 className="mb-4 text-lg font-semibold text-primary font-serif dark:text-gray-100">
               Edit Task
             </h2>
             <form onSubmit={handleEdit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
                   Title
                 </label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300  text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
                   Description
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full px-3 py-2 border border-gray-300  text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70 resize-none"
                   rows={3}
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
                     Priority
                   </label>
                   <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300  text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -196,25 +196,25 @@ export default function TaskActions({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
                     Due date
                   </label>
                   <input
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300  text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
                   Assignee
                 </label>
                 <select
                   value={assigneeId}
                   onChange={(e) => setAssigneeId(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300  text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70"
                 >
                   <option value="">Unassigned</option>
                   {members.map((m) => (
@@ -235,7 +235,7 @@ export default function TaskActions({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+                  className="bg-primary text-white px-4 py-2  text-sm font-medium hover:bg-secondary transition-colors disabled:opacity-50"
                 >
                   {loading ? "Saving..." : "Save changes"}
                 </button>
@@ -252,10 +252,10 @@ export default function TaskActions({
           onClick={() => setShowDelete(false)}
         >
           <div
-            className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl"
+            className="bg-white p-6 w-full max-w-sm shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">
+            <h2 className="mb-2 text-lg font-semibold text-primary font-serif dark:text-gray-100">
               Delete task?
             </h2>
             <p className="text-sm text-gray-500 mb-6">
@@ -265,14 +265,14 @@ export default function TaskActions({
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowDelete(false)}
-                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg"
+                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 "
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
                 disabled={loading}
-                className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 disabled:opacity-50"
+                className="bg-red-600 text-white px-4 py-2  text-sm font-medium hover:bg-red-700 disabled:opacity-50"
               >
                 {loading ? "Deleting..." : "Delete"}
               </button>

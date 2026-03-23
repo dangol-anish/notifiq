@@ -62,7 +62,7 @@ export default function TaskStatusSelect({
       value={status}
       onChange={(e) => handleChange(e.target.value)}
       disabled={loading || readOnly}
-      className={`text-sm px-3 py-1.5 rounded-lg font-medium border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 ${current.color} ${readOnly ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+      className={`text-sm px-3 py-1.5 font-medium border-0 focus:outline-none focus:ring-2 focus:ring-[#604021]/70 ${current.color} ${readOnly ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
     >
       {statuses.map((s) => (
         <option key={s.value} value={s.value}>

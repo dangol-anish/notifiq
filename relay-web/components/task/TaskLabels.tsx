@@ -64,7 +64,9 @@ export default function TaskLabels({
 
   return (
     <div>
-      <p className="text-xs text-gray-400 mb-1">Labels</p>
+      <p className="block text-xs font-semibold uppercase tracking-widest text-[#604021] mb-2">
+        Labels
+      </p>
       <div className="flex flex-wrap gap-1.5 items-center">
         {labels.map((label) => (
           <LabelBadge
@@ -76,48 +78,48 @@ export default function TaskLabels({
         ))}
 
         {!readOnly && (
-        <div className="relative">
-          <button
-            onClick={() => setShowDropdown((prev) => !prev)}
-            className="text-xs text-gray-400 hover:text-gray-600 border border-dashed border-gray-300 px-2 py-0.5 rounded-full transition-colors"
-          >
-            + Add label
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setShowDropdown((prev) => !prev)}
+              className="text-xs text-gray-400 hover:text-gray-600 border border-dashed border-gray-300 px-2 py-0.5 rounded-sm transition-colors"
+            >
+              + Add label
+            </button>
 
-          {showDropdown && (
-            <>
-              <div
-                className="fixed inset-0 z-10"
-                onClick={() => setShowDropdown(false)}
-              />
-              <div className="absolute top-6 left-0 z-20 bg-white border border-gray-200 rounded-lg shadow-lg p-2 min-w-[160px]">
-                {unattachedLabels.length === 0 ? (
-                  <p className="text-xs text-gray-400 px-2 py-1">
-                    {allLabels.length === 0
-                      ? "No labels yet. Create them in workspace settings."
-                      : "All labels added"}
-                  </p>
-                ) : (
-                  unattachedLabels.map((label) => (
-                    <button
-                      key={label.id}
-                      onClick={() => addLabel(label)}
-                      className="w-full text-left px-2 py-1.5 rounded hover:bg-gray-50 flex items-center gap-2"
-                    >
-                      <span
-                        className="w-3 h-3 rounded-full shrink-0"
-                        style={{ backgroundColor: label.color }}
-                      />
-                      <span className="text-sm text-gray-700">
-                        {label.name}
-                      </span>
-                    </button>
-                  ))
-                )}
-              </div>
-            </>
-          )}
-        </div>
+            {showDropdown && (
+              <>
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setShowDropdown(false)}
+                />
+                <div className="absolute top-6 left-0 z-20 bg-white border border-gray-200 rounded-lg shadow-lg p-2 min-w-[160px]">
+                  {unattachedLabels.length === 0 ? (
+                    <p className="text-xs text-gray-400 px-2 py-1">
+                      {allLabels.length === 0
+                        ? "No labels yet. Create them in workspace settings."
+                        : "All labels added"}
+                    </p>
+                  ) : (
+                    unattachedLabels.map((label) => (
+                      <button
+                        key={label.id}
+                        onClick={() => addLabel(label)}
+                        className="w-full text-left px-2 py-1.5 rounded hover:bg-gray-50 flex items-center gap-2"
+                      >
+                        <span
+                          className="w-3 h-3 rounded-full shrink-0"
+                          style={{ backgroundColor: label.color }}
+                        />
+                        <span className="text-sm text-gray-700">
+                          {label.name}
+                        </span>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </>
+            )}
+          </div>
         )}
       </div>
     </div>

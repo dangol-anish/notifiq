@@ -51,7 +51,7 @@ export default function AISummary({ taskId, readOnly }: Props) {
           {loading ? "Summarizing…" : "Summarize with AI"}
         </button>
       ) : (
-        <div className="relative rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 dark:border-sky-900 dark:bg-sky-950/40">
+        <div className="relative  border border-sky-200 bg-sky-50 px-4 py-3 dark:border-sky-900 dark:bg-sky-950/40">
           <button
             type="button"
             onClick={() => setSummary(null)}

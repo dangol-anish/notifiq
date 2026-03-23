@@ -61,7 +61,7 @@ export default function AttachmentUpload({ taskId, onUploadComplete }: Props) {
         setIsDragging(false);
         handleFiles(e.dataTransfer.files);
       }}
-      className={`rounded-lg border-2 border-dashed p-4 text-center transition-colors ${
+      className={`rounded-sm border-2 border-dashed p-4 text-center transition-colors ${
         isDragging
           ? "border-blue-400 bg-blue-50 dark:bg-blue-950/40"
           : "border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600"
@@ -73,7 +73,7 @@ export default function AttachmentUpload({ taskId, onUploadComplete }: Props) {
         <>
           <p className="text-sm text-gray-500">
             Drag and drop files here, or{" "}
-            <label className="text-blue-600 cursor-pointer hover:underline">
+            <label className="text-primary cursor-pointer hover:underline">
               browse
               <input
                 type="file"

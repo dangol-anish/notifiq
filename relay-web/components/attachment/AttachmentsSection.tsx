@@ -26,8 +26,8 @@ export default function AttachmentsSection({
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
+    <div className=" border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className="mb-4 text-lg font-semibold text-primary font-serif dark:text-gray-100">
         Attachments ({attachments.length})
       </h2>
       <div className="space-y-4">

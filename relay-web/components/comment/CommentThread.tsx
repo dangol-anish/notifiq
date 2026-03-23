@@ -50,8 +50,8 @@ export default function CommentThread({
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
+    <div className=" border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <h2 className="mb-4 text-lg font-semibold text-primary font-serif dark:text-gray-100">
         Comments ({comments.length})
       </h2>
 
@@ -80,13 +80,13 @@ export default function CommentThread({
               value={body}
               onChange={(e) => setBody(e.target.value)}
               placeholder="Add a comment... Use @name to mention someone"
-              className="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
+              className="w-full resize-none  border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#604021]/70 dark:border-gray-600 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500"
               rows={3}
             />
             <button
               type="submit"
               disabled={loading || !body.trim()}
-              className="mt-2 bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="mt-2 bg-primary text-white px-4 py-1.5  text-sm font-medium hover:bg-primary/70 cursor-pointer transition-colors disabled:opacity-50"
             >
               {loading ? "Posting..." : "Comment"}
             </button>
