@@ -1,85 +1,113 @@
 import Image from "next/image";
-
-const feature1Bullets = [
-  "Sub-millisecond real-time state synchronization.",
-  "Integrated asset versioning and review.",
-];
+import Link from "next/link";
 
 export default function FeaturesSection() {
   return (
-    <section className="py-32 space-y-32">
-      {/* Feature 1 */}
-      <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-        <div>
-          <h2 className="text-4xl font-headline font-bold text-primary mb-6">
-            Built for precision.
-          </h2>
-          <p className="text-lg text-secondary leading-relaxed mb-8">
-            Our interface is stripped of unnecessary noise. Focus on what
-            matters with a high-density dashboard that prioritizes content over
-            chrome.
-          </p>
-          <ul className="space-y-4">
-            {feature1Bullets.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-primary  flex justify-center items-center">
-                  check_circle
-                </span>
-                <span className="text-on-surface">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="bg-surface-container p-4 rounded-sm">
-          <div className="aspect-video bg-surface-container-lowest rounded-sm shadow-sm border border-outline-variant/10 overflow-hidden">
-            <Image
-              src="/2.png"
-              alt="Clean software dashboard"
-              width={800}
-              height={450}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </div>
+    <section className="bg-background py-22">
+      <div className="mx-auto max-w-7xl space-y-18 px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
+          <div className="lg:col-span-5">
+            <h2 className="text-3xl font-headline font-bold text-primary">
+              A calm surface for daily work.
+            </h2>
+            <p className="mt-4 text-secondary">
+              Tasks stay organized. Updates arrive instantly. The interface
+              stays out of the way.
+            </p>
 
-      {/* Feature 2 (reversed) */}
-      <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-        <div className="order-2 md:order-1 bg-surface-container-high p-4 rounded-sm">
-          <div className="aspect-video bg-surface-container-lowest rounded-sm shadow-sm border border-outline-variant/10 overflow-hidden">
-            <Image
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsbodYT8bP4OLDgc6HkRdfWqoQHN44iNS0Bwxid9gLQFunfwpRmR601LXIDhGLMXubVz1X6S_w197reiwVAty9vxlxQhfR0Ob12bq9l1cihg76avJ9AouWv1-hbAeuVG89hZgAFfF3F026PubkdKwQDNnbBBgvmSt9wyim2OD5mQcjaxZ3OmHInigd9XkfmvGjgPKWxPWWJU1gpD5gBdwOl57LN1Keyn73PVdJrhOEDONB_oQY2cTa2QrFCT3x4CH_qZCdye8FPtA"
-              alt="Architectural workflow visualization"
-              width={800}
-              height={450}
-              className="w-full h-full object-cover"
-            />
+            <div className="mt-8 space-y-3">
+              <Bullet icon="notifications" text="Real-time notification stream with read state." />
+              <Bullet icon="fact_check" text="Projects + tasks with clear status and ownership." />
+              <Bullet icon="person_search" text="Fast search across your workspace." />
+            </div>
+
+            <div className="mt-10 rounded-sm border border-outline-variant/20 bg-surface-container-low p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-tertiary">
+                Start in minutes
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/register"
+                  className="rounded-sm bg-primary px-6 py-3 text-sm font-semibold text-on-primary transition-opacity hover:opacity-95 active:opacity-90"
+                >
+                  Create account
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="rounded-sm border border-outline-variant/60 bg-surface-container-lowest px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-surface-container"
+                >
+                  Go to dashboard
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            <div className="rounded-sm border border-outline-variant/20 bg-surface-container-lowest p-4 shadow-sm">
+              <div className="overflow-hidden rounded-sm border border-outline-variant/10">
+                <Image
+                  src="/2.png"
+                  alt="Notifiq workspace view"
+                  width={1400}
+                  height={900}
+                  className="h-auto w-full"
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="order-1 md:order-2">
-          <h2 className="text-4xl font-headline font-bold text-primary mb-6">
-            Seamless integration.
-          </h2>
-          <p className="text-lg text-secondary leading-relaxed mb-8">
-            Your existing stack is powerful. Notifiq acts as the connective
-            tissue, binding your tools into a single source of truth.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 bg-surface-container-low rounded-sm">
-              <span className="material-symbols-outlined text-tertiary mb-2 block">
-                hub
-              </span>
-              <h4 className="font-bold text-primary text-sm">200+ Plugins</h4>
-            </div>
-            <div className="p-4 bg-surface-container-low rounded-sm">
-              <span className="material-symbols-outlined text-tertiary mb-2 block">
-                code
-              </span>
-              <h4 className="font-bold text-primary text-sm">API First</h4>
-            </div>
+
+        <div className="rounded-sm border border-outline-variant/20 bg-surface-container-lowest p-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <Step
+              icon="domain"
+              title="Create a workspace"
+              description="Invite teammates and set roles."
+            />
+            <Step
+              icon="view_kanban"
+              title="Track projects"
+              description="Keep tasks moving with simple status."
+            />
+            <Step
+              icon="bolt"
+              title="Stay current"
+              description="Get updates instantly or in a weekly digest."
+            />
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function Bullet({ icon, text }: { icon: string; text: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className="material-symbols-outlined mt-0.5 text-primary">
+        {icon}
+      </span>
+      <p className="text-sm leading-relaxed text-on-surface">{text}</p>
+    </div>
+  );
+}
+
+function Step({
+  icon,
+  title,
+  description,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="rounded-sm border border-outline-variant/20 bg-surface-container-low p-6">
+      <span className="material-symbols-outlined text-tertiary">{icon}</span>
+      <p className="mt-4 text-sm font-semibold text-primary">{title}</p>
+      <p className="mt-2 text-sm leading-relaxed text-secondary">
+        {description}
+      </p>
+    </div>
   );
 }

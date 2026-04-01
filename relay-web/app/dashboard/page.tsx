@@ -7,6 +7,7 @@ import NotificationBell from "@/components/notifications/NotificationBell";
 import CreateWorkspaceModal from "@/components/workspace/CreateWorkspaceModal";
 import WorkspaceCard from "@/components/workspace/WorkspaceCard";
 import Link from "next/link";
+import LogoMark from "@/components/brand/LogoMark";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -23,9 +24,10 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <nav className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 dark:border-gray-800 dark:bg-gray-900">
-        <h1 className="text-xl font-bold font-serif text-emerald-900 dark:text-emerald-50">
-          Notifiq
-        </h1>
+        <Link href="/" className="inline-flex items-center gap-2 text-primary">
+          <LogoMark className="h-7 w-7" />
+          <span className="text-xl font-serif font-bold italic">Notifiq</span>
+        </Link>
         <div className="flex items-center gap-4">
           <NotificationBell />
           <Link

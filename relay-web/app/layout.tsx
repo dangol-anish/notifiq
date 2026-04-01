@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/providers";
-import { themeBlockingScript } from "@/lib/theme-storage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Notifiq – Your team, always in sync.",
   description:
-    "Notifiq orchestrates your complex workflows into a single, architectural timeline. Real-time collaboration built for teams that demand precision.",
+    "Real-time notifications and task updates, organized by workspace.",
 };
 
 export default function RootLayout({
@@ -28,8 +27,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Theme flash prevention */}
-        <script dangerouslySetInnerHTML={{ __html: themeBlockingScript }} />
         {/* Material Symbols for icons used throughout the landing page */}
         <link
           rel="stylesheet"

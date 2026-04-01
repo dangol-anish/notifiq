@@ -5,6 +5,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import LogoMark from "@/components/brand/LogoMark";
 
 function LoginForm() {
   const router = useRouter();
@@ -40,8 +41,9 @@ function LoginForm() {
     <div className="w-full max-w-[480px] bg-surface-container-lowest p-8 md:p-12 shadow-sm border border-outline-variant/10">
       {/* Brand anchor */}
       <div className="flex flex-col items-center mb-8 text-center">
-        <div className="text-lg font-serif italic text-primary mb-6">
-          Notifiq
+        <div className="mb-6 inline-flex items-center gap-2 text-primary">
+          <LogoMark className="h-7 w-7" />
+          <span className="text-lg font-serif italic">Notifiq</span>
         </div>
         <h1 className="text-3xl font-headline text-primary mb-2">
           Welcome back
@@ -181,7 +183,10 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col">
       {/* Nav */}
       <nav className="flex justify-between items-center w-full px-8 py-3 max-w-full mx-auto">
-        <div className="text-2xl font-serif italic text-primary">Notifiq</div>
+        <Link href="/" className="inline-flex items-center gap-2 text-primary">
+          <LogoMark className="h-7 w-7" />
+          <span className="text-2xl font-serif italic">Notifiq</span>
+        </Link>
         <div className="hidden md:flex gap-8 items-center">
           <Link
             href="/"
