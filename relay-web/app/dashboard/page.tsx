@@ -80,7 +80,6 @@ export default async function DashboardPage() {
             <p className="text-secondary text-sm mb-4">
               Create a workspace to start collaborating with your team.
             </p>
-            <CreateWorkspaceModal />
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-5">
