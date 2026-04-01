@@ -20,17 +20,17 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               fontSize: "14px",
               borderRadius: "8px",
             },
-          }}
-          success={{
-            iconTheme: {
-              primary: "#2d4a3e",
-              secondary: "#ffffff",
+            success: {
+              iconTheme: {
+                primary: "#2d4a3e",
+                secondary: "#ffffff",
+              },
             },
-          }}
-          error={{
-            iconTheme: {
-              primary: "#ba1a1a",
-              secondary: "#ffffff",
+            error: {
+              iconTheme: {
+                primary: "#ba1a1a",
+                secondary: "#ffffff",
+              },
             },
           }}
         />
