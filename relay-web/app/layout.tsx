@@ -27,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="color-scheme" content="light" />
         {/* Material Symbols for icons used throughout the landing page */}
         <link
           rel="stylesheet"

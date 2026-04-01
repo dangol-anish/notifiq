@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Public+Sans:wght@300;400;500;600&display=swap");
+/* Force light-only UI: disable Tailwind `dark:` variants regardless of OS preference. */
+@custom-variant dark (&:where(.never-dark, .never-dark *));
+
 @import "tailwindcss";
 
 :root {
